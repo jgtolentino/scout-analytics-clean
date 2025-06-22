@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { 
   ChartBarIcon, 
@@ -9,6 +11,7 @@ import {
   EyeIcon
 } from '@heroicons/react/24/outline';
 import ScoutBot from '@/components/ScoutBot';
+import { useSummary, useHealth } from '@/hooks/useAPI';
 
 interface KpiCardProps {
   title: string;
@@ -44,8 +47,58 @@ function KpiCard({ title, value, change, changeType, icon: Icon }: KpiCardProps)
 }
 
 export default function Dashboard() {
-  // Real data from TBWA database analysis
-  const kpiData = [
+  // Fetch live data
+  const { data: summaryData, isLoading: summaryLoading, error: summaryError } = useSummary();
+  const { data: healthData, isLoading: healthLoading } = useHealth();
+
+  // Fallback to static data while loading or on error
+  const apiData = summaryData?.success && summaryData.data ? summaryData.data as any : null;
+  const healthStatus = healthData?.success && healthData.data ? healthData.data as any : null;
+  const kpiData = apiData ? [
+    {
+      title: 'Total Campaigns',
+      value: apiData.totalCampaigns?.toString() || '163',
+      change: apiData.campaignGrowth || '+12 this month',
+      changeType: 'positive' as const,
+      icon: ChartBarIcon
+    },
+    {
+      title: 'Avg Predicted ROI',
+      value: apiData.avgROI || '3.2x',
+      change: apiData.roiChange || '+15% vs target',
+      changeType: 'positive' as const,
+      icon: ArrowTrendingUpIcon
+    },
+    {
+      title: 'Creative Assets',
+      value: apiData.creativeAssets?.toString() || '163',
+      change: apiData.assetStatus || 'All processed',
+      changeType: 'positive' as const,
+      icon: PhotoIcon
+    },
+    {
+      title: 'Prediction Accuracy',
+      value: apiData.predictionAccuracy || '85%',
+      change: apiData.accuracyChange || '+3% this quarter',
+      changeType: 'positive' as const,
+      icon: BoltIcon
+    },
+    {
+      title: 'Avg CTR Prediction',
+      value: apiData.avgCTR || '2.8%',
+      change: apiData.ctrStatus || 'Within range',
+      changeType: 'neutral' as const,
+      icon: EyeIcon
+    },
+    {
+      title: 'Data Quality Score',
+      value: apiData.dataQuality || '96%',
+      change: apiData.qualityStatus || 'Excellent',
+      changeType: 'positive' as const,
+      icon: ShieldCheckIcon
+    }
+  ] : [
+    // Static fallback data
     {
       title: 'Total Campaigns',
       value: '163',
@@ -114,9 +167,19 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                Live Data Connected
-              </span>
+              {summaryLoading ? (
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                  Loading...
+                </span>
+              ) : summaryError ? (
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                  Connection Error
+                </span>
+              ) : (
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  Live Data Connected
+                </span>
+              )}
               <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
             </div>
           </div>
@@ -238,11 +301,17 @@ export default function Dashboard() {
           <div className="flex items-center justify-between text-sm text-gray-500">
             <div className="flex items-center space-x-4">
               <span className="flex items-center">
-                <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                Azure SQL Connected
+                <div className={`w-2 h-2 rounded-full mr-2 ${
+                  healthStatus?.services?.database === 'connected' 
+                    ? 'bg-green-500' 
+                    : 'bg-red-500'
+                }`}></div>
+                {healthStatus?.services?.database === 'connected' 
+                  ? 'Azure SQL Connected' 
+                  : 'Database Disconnected'}
               </span>
-              <span>163 campaigns loaded</span>
-              <span>Last sync: Just now</span>
+              <span>{apiData ? `${apiData.totalCampaigns || 163} campaigns loaded` : '163 campaigns loaded'}</span>
+              <span>Last sync: {healthStatus?.timestamp ? new Date(healthStatus.timestamp).toLocaleTimeString() : 'Just now'}</span>
             </div>
             <span>TBWA Project Scout v1.0.0</span>
           </div>

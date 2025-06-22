@@ -3,7 +3,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChatBubbleLeftRightIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import { motion, AnimatePresence } from 'framer-motion';
-import { analyzeQuery } from '@/services/scoutbot';
+import { useChatBot } from '@/hooks/useAPI';
+
+// --- Singleton guard: auto-unmount duplicates ---
+const INSTANCE_ID = 'scoutbot-floating-singleton';
 
 interface Message {
   id: string;
@@ -14,6 +17,7 @@ interface Message {
 }
 
 export default function ScoutBot() {
+  const containerRef = useRef<HTMLDivElement|null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -24,8 +28,20 @@ export default function ScoutBot() {
     },
   ]);
   const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
+  
+  const chatMutation = useChatBot();
+
+  // Singleton guard: auto-unmount duplicates
+  useEffect(() => {
+    const existing = document.getElementById(INSTANCE_ID);
+    if (existing && existing !== containerRef.current) {
+      // Another instance already lives → unmount this one
+      containerRef.current?.remove();
+      return;
+    }
+    if (containerRef.current) containerRef.current.id = INSTANCE_ID;
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -37,7 +53,7 @@ export default function ScoutBot() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim() || isLoading) return;
+    if (!input.trim() || chatMutation.isPending) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -47,26 +63,28 @@ export default function ScoutBot() {
     };
 
     setMessages((prev) => [...prev, userMessage]);
+    const currentInput = input;
     setInput('');
-    setIsLoading(true);
 
     try {
-      const response = await fetch('/api/scoutbot/query', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: input }),
+      const result = await chatMutation.mutateAsync({ 
+        query: currentInput,
+        context: { page: 'dashboard', timestamp: new Date().toISOString() }
       });
-      const data = await response.json();
       
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: data.answer,
-        timestamp: new Date(),
-        data: data.data,
-      };
-
-      setMessages((prev) => [...prev, assistantMessage]);
+      if (result.success && result.data) {
+        const responseData = result.data as any;
+        const assistantMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          content: responseData.answer || responseData.response || 'I received your message.',
+          timestamp: new Date(),
+          data: responseData.data,
+        };
+        setMessages((prev) => [...prev, assistantMessage]);
+      } else {
+        throw new Error(result.error || 'Unknown error');
+      }
     } catch (error) {
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -75,8 +93,6 @@ export default function ScoutBot() {
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMessage]);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -88,7 +104,7 @@ export default function ScoutBot() {
   ];
 
   return (
-    <>
+    <div ref={containerRef}>
       {/* Floating Button */}
       <motion.button
         whileHover={{ scale: 1.05 }}
@@ -157,7 +173,7 @@ export default function ScoutBot() {
                   </div>
                 </motion.div>
               ))}
-              {isLoading && (
+              {chatMutation.isPending && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -202,11 +218,11 @@ export default function ScoutBot() {
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask about campaigns, forecasts, or creatives..."
                   className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                  disabled={isLoading}
+                  disabled={chatMutation.isPending}
                 />
                 <button
                   type="submit"
-                  disabled={isLoading || !input.trim()}
+                  disabled={chatMutation.isPending || !input.trim()}
                   className="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   <PaperAirplaneIcon className="h-5 w-5" />
@@ -216,6 +232,6 @@ export default function ScoutBot() {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 }
