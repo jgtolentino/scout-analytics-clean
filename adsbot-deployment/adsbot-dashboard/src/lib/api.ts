@@ -29,9 +29,41 @@ interface FilterParams {
 
 class APIClient {
   private baseURL: string;
+  private token: string | null = null;
 
   constructor(baseURL: string = API_BASE) {
     this.baseURL = baseURL;
+    // Try to restore token from localStorage
+    if (typeof window !== 'undefined') {
+      this.token = localStorage.getItem('scout_auth_token');
+    }
+  }
+
+  private async ensureAuthenticated(): Promise<void> {
+    if (this.token) return;
+
+    try {
+      // Auto-login with demo credentials for development
+      const response = await fetch(`${this.baseURL}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: 'demo@scout.com',
+          password: 'demo123'
+        }),
+      });
+
+      const data = await response.json();
+      if (data.success && data.token) {
+        this.token = data.token;
+        localStorage.setItem('scout_auth_token', data.token);
+      } else {
+        throw new Error(data.error || 'Login failed');
+      }
+    } catch (error) {
+      console.error('Auto-login failed:', error);
+      // Continue without auth - API will return errors which we'll handle
+    }
   }
 
   private async request<T>(
@@ -39,12 +71,22 @@ class APIClient {
     options: RequestInit = {}
   ): Promise<APIResponse<T>> {
     try {
+      // Ensure we're authenticated before making requests
+      await this.ensureAuthenticated();
+
       const url = `${this.baseURL}${endpoint}`;
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+        ...options.headers as Record<string, string>,
+      };
+
+      // Add authorization header if we have a token
+      if (this.token) {
+        headers['Authorization'] = `Bearer ${this.token}`;
+      }
+
       const response = await fetch(url, {
-        headers: {
-          'Content-Type': 'application/json',
-          ...options.headers,
-        },
+        headers,
         ...options,
       });
 
@@ -110,35 +152,35 @@ class APIClient {
     return this.request(`/api/kpi/brands?${params}`);
   }
 
-  // Analytics endpoints
+  // Analytics endpoints (mapped to available KPI endpoints)
   async getVolume(filters: FilterParams & { aggregation?: 'hourly' | 'daily' | 'peak' } = {}) {
     const params = new URLSearchParams(filters as any).toString();
-    return this.request(`/api/analytics/volume?${params}`);
+    return this.request(`/api/kpi/transactions?${params}`); // Map to transactions endpoint
   }
 
   async getCategoryMix(filters: FilterParams & { breakdown?: 'category' | 'sku' } = {}) {
     const params = new URLSearchParams(filters as any).toString();
-    return this.request(`/api/analytics/category-mix?${params}`);
+    return this.request(`/api/kpi/categories?${params}`);
   }
 
   async getRegionalPerformance(filters: FilterParams = {}) {
     const params = new URLSearchParams(filters as any).toString();
-    return this.request(`/api/analytics/regional-performance?${params}`);
+    return this.request(`/api/kpi/regions?${params}`);
   }
 
   async getSubstitution(filters: FilterParams = {}) {
     const params = new URLSearchParams(filters as any).toString();
-    return this.request(`/api/analytics/substitution?${params}`);
+    return this.request(`/api/kpi/categories?${params}`); // Use categories for substitution data
   }
 
   async getBasketAnalysis(filters: FilterParams = {}) {
     const params = new URLSearchParams(filters as any).toString();
-    return this.request(`/api/analytics/basket-analysis?${params}`);
+    return this.request(`/api/kpi/transactions?${params}`); // Use transactions for basket analysis
   }
 
   async getDemographics(filters: FilterParams & { agg?: 'barangay' | 'region' } = {}) {
     const params = new URLSearchParams(filters as any).toString();
-    return this.request(`/api/analytics/demographics?${params}`);
+    return this.request(`/api/kpi/regions?${params}`); // Map to regions endpoint
   }
 
   // AI/Chat endpoints
