@@ -152,7 +152,17 @@ class APIClient {
     return this.request(`/api/kpi/brands?${params}`);
   }
 
-  // Analytics endpoints (mapped to available KPI endpoints)
+  // Scout Analytics - Unified singleton endpoint
+  async getScoutAnalytics(filters: FilterParams & { period?: '7d' | '30d' | '90d' } = {}) {
+    const params = new URLSearchParams(filters as any).toString();
+    return this.request(`/api/scout/analytics?${params}`);
+  }
+
+  async getScoutHealth() {
+    return this.request('/api/scout/health');
+  }
+
+  // Analytics endpoints (legacy - use getScoutAnalytics for new implementations)
   async getVolume(filters: FilterParams & { aggregation?: 'hourly' | 'daily' | 'peak' } = {}) {
     const params = new URLSearchParams(filters as any).toString();
     return this.request(`/api/kpi/transactions?${params}`); // Map to transactions endpoint

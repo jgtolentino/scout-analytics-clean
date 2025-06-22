@@ -14,6 +14,10 @@ export const queryKeys = {
   categories: (filters: FilterParams) => ['categories', filters],
   regions: (filters: FilterParams) => ['regions', filters],
   brands: (filters: FilterParams) => ['brands', filters],
+  // Scout Analytics - Unified endpoint
+  scoutAnalytics: (filters: FilterParams & { period?: string }) => ['scoutAnalytics', filters],
+  scoutHealth: ['scoutHealth'],
+  // Legacy analytics endpoints
   volume: (filters: FilterParams & { aggregation?: string }) => ['volume', filters],
   categoryMix: (filters: FilterParams & { breakdown?: string }) => ['categoryMix', filters],
   regionalPerformance: (filters: FilterParams) => ['regionalPerformance', filters],
@@ -30,6 +34,25 @@ export function useHealth() {
     queryFn: () => apiClient.health(),
     refetchInterval: 30000, // Check every 30 seconds
     staleTime: 10000, // Consider fresh for 10 seconds
+  });
+}
+
+// Scout Analytics - Unified endpoint hooks
+export function useScoutAnalytics(filters: FilterParams & { period?: '7d' | '30d' | '90d' } = {}) {
+  return useQuery({
+    queryKey: queryKeys.scoutAnalytics(filters),
+    queryFn: () => apiClient.getScoutAnalytics(filters),
+    staleTime: 2 * 60 * 1000, // 2 minutes
+    enabled: true, // Always enabled for comprehensive dashboard data
+  });
+}
+
+export function useScoutHealth() {
+  return useQuery({
+    queryKey: queryKeys.scoutHealth,
+    queryFn: () => apiClient.getScoutHealth(),
+    refetchInterval: 60000, // Check every minute
+    staleTime: 30000, // Consider fresh for 30 seconds
   });
 }
 

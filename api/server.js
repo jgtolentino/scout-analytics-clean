@@ -13,6 +13,7 @@ const database = require('./config/database');
 // Import routes
 const authRoutes = require('./routes/auth');
 const kpiRoutes = require('./routes/kpi');
+const scoutRoutes = require('./routes/scout');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -101,6 +102,7 @@ app.get('/api/health', async (req, res) => {
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/kpi', kpiRoutes);
+app.use('/api/scout', scoutRoutes);
 
 // 404 handler
 app.use('/api/*', (req, res) => {
@@ -120,6 +122,10 @@ app.use('/api/*', (req, res) => {
         'GET /api/kpi/categories',
         'GET /api/kpi/regions',
         'GET /api/kpi/brands'
+      ],
+      scout: [
+        'GET /api/scout/analytics - Unified Scout Analytics endpoint',
+        'GET /api/scout/health - Scout system health check'
       ],
       docs: [
         'GET /api-docs - Swagger documentation',
