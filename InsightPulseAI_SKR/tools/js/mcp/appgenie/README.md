@@ -1,137 +1,182 @@
-# AppGenie
+# AppGenie 🧞‍♂️
 
-An AI-native mobile app generator using Claude and modular agent workflows.
+**AI-Native Mobile App Generator** - Transform natural language into production-ready applications.
+
+[![Production Grade](https://img.shields.io/badge/status-production--grade-green)](https://github.com/appgenie/appgenie)
+[![MCP Compatible](https://img.shields.io/badge/MCP-compatible-blue)](https://modelcontextprotocol.io)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Overview
 
-AppGenie is a Pulser-powered platform that enables rapid creation of mobile applications from natural language prompts. It uses a modular agent architecture to handle each part of the app generation process, from understanding the user's intent to deploying the finished product.
+AppGenie is a production-grade AI agent that converts natural language descriptions into fully functional applications with:
 
-## Key Features
+- ✅ **Full-stack code generation** (React/Vite frontend, FastAPI backend)
+- ✅ **Multi-platform deployment** (Vercel, Azure, PWA, native)
+- ✅ **Agent orchestration** (NLP → Templates → UI → Preview → Deploy)
+- ✅ **Memory & context awareness** (Vector store integration)
+- ✅ **Production observability** (Devstral tracing)
 
-- **Natural Language to App Creation**: Turn plain English descriptions into functional mobile apps
-- **Drag-and-Drop Editor**: Visually customize your app without coding
-- **Real-Time Preview**: See your app in device frames as you build it
-- **Multi-Platform Deployment**: Deploy as PWA, Expo app, or native iOS/Android app
-- **AI-Powered Design**: Get intelligent suggestions for UI, UX, and features
-- **Modular Architecture**: Extensible system built on MCP (Model Context Protocol)
+## Quick Start
+
+```bash
+# Install dependencies
+npm install
+
+# Initialize a new app
+./dev.sh init "Build a feedback collection app with login, dashboard, and export to CSV"
+
+# Edit the generated app
+./dev.sh edit feedback-app
+
+# Preview in device frames
+./dev.sh preview feedback-app --device=iphone
+
+# Deploy to production
+./dev.sh deploy feedback-app --target=vercel
+```
 
 ## Architecture
 
-AppGenie is built on a modular agent architecture using Pulser's MCP system:
-
-1. **nlp-parser**: Converts natural language prompts into structured app schema
-2. **template-manager**: Applies UI templates and generates base code
-3. **ui-editor**: Provides drag-and-drop interface for customizing screens
-4. **preview-engine**: Renders real-time previews in device frames
-5. **deployer**: Handles deployment to various platforms
-
-## Workflow
-
 ```
-User Input → NLP Parser → Template Manager → UI Editor → Preview Engine → Deployer
+┌─────────────┐     ┌──────────────┐     ┌────────────┐     ┌─────────────┐     ┌──────────┐
+│ NLP Parser  │────▶│   Template   │────▶│ UI Editor  │────▶│  Preview    │────▶│ Deployer │
+│   Agent     │     │   Manager    │     │   Agent    │     │   Engine    │     │  Agent   │
+└─────────────┘     └──────────────┘     └────────────┘     └─────────────┘     └──────────┘
+      │                                           │                    │                 │
+      └───────────────────────────────────────────┴────────────────────┴─────────────────┘
+                                          Memory Store (RAG)
 ```
 
-1. User describes the app they want to build
-2. NLP Parser converts this description into a structured app schema
-3. Template Manager applies UI templates and generates base code
-4. UI Editor allows visual customization of the app
-5. Preview Engine shows how the app will look on real devices
-6. Deployer packages and publishes the app to the chosen platform
+## Features
 
-## Usage
-
-### CLI
-
+### 🎯 Natural Language to App
 ```bash
-# Initialize an app
-:appgenie init "Build a habit tracker app"
-
-# Edit the app UI
-:appgenie edit habit-tracker
-
-# Preview the app
-:appgenie preview habit-tracker --device=iphone
-
-# Deploy the app
-:appgenie deploy habit-tracker --target=pwa
+:appgenie "Create a habit tracker with streaks, reminders, and social sharing"
 ```
 
-### UI Modes
+### 🎨 Multiple UI Modes
+- **Mobile App Builder** - Drag-and-drop mobile app creation
+- **Web App IDE** - Full-featured web development environment
+- **Deck Builder** - Presentation and portfolio creation
 
-AppGenie supports three UI modes:
+### 🚀 Deployment Options
+- **PWA** - Progressive Web Apps with offline support
+- **Vercel** - Instant global deployment
+- **Azure** - Enterprise cloud hosting
+- **Expo** - React Native mobile apps
+- **Native** - iOS/Android app stores
 
-- **Deck Mode**: Presentation-style interface for quick overviews
-- **Web IDE**: Replit-style interface for detailed editing
-- **Mobile View**: Mobile-optimized interface for on-the-go edits
-
-## Installation
-
+### 🧠 Memory & Context
 ```bash
-# Clone the repository
-git clone https://github.com/user/appgenie.git
+# Save project context
+./dev.sh remember project "e-commerce app for handmade crafts"
 
-# Install dependencies
-cd appgenie
-npm install
-
-# Set up development environment
-npm run setup
-
-# Start development server
-npm run dev
+# Recall and update
+./dev.sh recall project
+./dev.sh update project "add inventory management"
 ```
 
-## Requirements
-
-- Node.js 14+
-- React 17+
-- Expo CLI (for mobile deployment)
-- Claude API access
-
-## Project Structure
-
+### 📊 Production Monitoring
+```bash
+# View agent execution traces
+./dev.sh trace nlp-parser
+./dev.sh trace all
 ```
-appgenie/
-├── agents/               # Agent YAML definitions
-│   ├── nlp-parser.yaml   # Natural language processing agent
-│   ├── template-manager.yaml # Template application agent
-│   ├── ui-editor.yaml    # UI editing agent
-│   ├── preview-engine.yaml # Preview rendering agent
-│   └── deployer.yaml     # Deployment agent
-├── public/               # Public assets
-│   └── device-frames/    # Device frame images
-├── src/                  # Source code
-│   ├── components/       # React components
-│   └── pages/            # Page components
-├── utils/                # Utility functions
-├── slides/               # Presentation slides for deck mode
-├── .claude-cli/          # Claude CLI configuration
-└── README.md             # Documentation
-```
+
+## Agent Pipeline
+
+1. **NLP Parser** (`agents/nlp-parser.yaml`)
+   - Converts natural language to structured app schema
+   - Extracts screens, components, navigation, data models
+
+2. **Template Manager** (`agents/template-manager.yaml`)
+   - Applies design systems (Material, iOS, Fluent, Minimal)
+   - Generates React/React Native components
+   - Creates backend scaffolding
+
+3. **UI Editor** (`agents/ui-editor.yaml`)
+   - Provides visual editing interface
+   - Real-time component manipulation
+   - Property editing and preview
+
+4. **Preview Engine** (`agents/preview-engine.yaml`)
+   - Device frame rendering
+   - Multi-platform preview
+   - Live hot-reload
+
+5. **Deployer** (`agents/deployer.yaml`)
+   - Platform-specific build optimization
+   - Deployment automation
+   - Post-deployment verification
 
 ## Development
 
-### Running Locally
-
 ```bash
+# Run tests
+npm test
+
+# Grade all agents
+node scripts/grade_agents.mjs
+
 # Start development server
-npm run dev
+./dev.sh serve
 
-# Run in deck mode
-npm run dev:deck
-
-# Run in mobile mode
-npm run dev:mobile
+# View logs
+tail -f logs/agents/*.log
 ```
 
-### Adding New Templates
+## Configuration
 
-Templates are defined in `agents/template-manager.yaml` and can be extended by adding new template definitions.
+### Environment Variables
+```bash
+# .env
+OPENAI_API_KEY=sk-...
+VERCEL_TOKEN=...
+AZURE_SUBSCRIPTION_ID=...
+DEVSTRAL_API_KEY=...
+```
 
-### Creating Custom Agents
+### Agent Configuration
+Each agent is configured via YAML in the `agents/` directory with:
+- Input/output schemas
+- Runtime settings
+- Post-processing hooks
+- Tracing configuration
 
-New agents can be added to extend AppGenie's capabilities. See the [Agent Development Guide](docs/agent-development.md) for details.
+## MCP Integration
+
+AppGenie is fully MCP-compatible and can be integrated into larger agent orchestration systems:
+
+```yaml
+# mcp.routes.yaml
+routes:
+  /appgenie/init:
+    agent: nlp-parser
+    chain: [template-manager, ui-editor, preview-engine]
+    
+  /appgenie/deploy:
+    agent: deployer
+    requires: [app_name, target]
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
-MIT
+MIT License - see [LICENSE](LICENSE) for details.
+
+## Support
+
+- 📧 Email: support@appgenie.ai
+- 💬 Discord: [discord.gg/appgenie](https://discord.gg/appgenie)
+- 📚 Docs: [docs.appgenie.ai](https://docs.appgenie.ai)
+
+---
+
+Built with ❤️ by the AppGenie Team
