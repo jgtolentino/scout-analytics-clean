@@ -1,0 +1,10 @@
+name: AppGenie CI
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+      - run: pnpm i
+      - run: pnpm test -w packages/appgenie
