@@ -322,3 +322,64 @@ def get_transactions(
 ):
     """Get recent transactions with pagination."""
     return crud.transaction.get_recent(db, days=days, skip=skip, limit=limit)
+
+
+@router.get("/customers/rfm-segments", response_model=List[schemas.RFMSegment])
+def get_rfm_segments(db: Session = Depends(get_db)):
+    """Get customer RFM segmentation data for customer intelligence."""
+    # For now, return mock data that matches Scout Analytics expectations
+    # This will be replaced with real RFM calculation logic
+    mock_rfm_segments = [
+        {
+            "customer_id": "C001",
+            "customer_name": "Juan Dela Cruz",
+            "recency": 5,
+            "frequency": 15,
+            "monetary": 850000,
+            "segment": "Champions",
+            "clv": 2500000,
+            "loyalty_score": 95
+        },
+        {
+            "customer_id": "C002", 
+            "customer_name": "Maria Santos",
+            "recency": 12,
+            "frequency": 8,
+            "monetary": 450000,
+            "segment": "Loyal Customers", 
+            "clv": 1200000,
+            "loyalty_score": 78
+        },
+        {
+            "customer_id": "C003",
+            "customer_name": "Pedro Rodriguez", 
+            "recency": 25,
+            "frequency": 3,
+            "monetary": 120000,
+            "segment": "At Risk",
+            "clv": 350000,
+            "loyalty_score": 45
+        },
+        {
+            "customer_id": "C004",
+            "customer_name": "Ana Garcia",
+            "recency": 45,
+            "frequency": 2,
+            "monetary": 80000,
+            "segment": "Cannot Lose Them",
+            "clv": 180000,
+            "loyalty_score": 35
+        },
+        {
+            "customer_id": "C005",
+            "customer_name": "Luis Martinez",
+            "recency": 8,
+            "frequency": 12,
+            "monetary": 680000,
+            "segment": "Potential Loyalists",
+            "clv": 1800000,
+            "loyalty_score": 68
+        }
+    ]
+    
+    return mock_rfm_segments

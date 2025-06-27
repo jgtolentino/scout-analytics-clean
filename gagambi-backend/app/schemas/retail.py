@@ -297,3 +297,14 @@ class SalesTrend(BaseModel):
     total_sales: float
     total_transactions: int
     avg_basket_size: float
+
+
+class RFMSegment(BaseModel):
+    customer_id: str
+    customer_name: str
+    recency: int
+    frequency: int
+    monetary: float
+    segment: str
+    clv: float
+    loyalty_score: int
