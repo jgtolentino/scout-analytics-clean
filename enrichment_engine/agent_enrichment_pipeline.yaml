@@ -1,0 +1,46 @@
+agent: gagambi
+codename: full_enrichment_pipeline
+version: 1.0.0
+description: End-to-end enrichment pipeline with Perplexity-style referencing
+
+tasks:
+  - name: Complete Enrichment Pipeline
+    description: Run full intelligence gathering, formatting, and export pipeline
+    workflow:
+      - step: gather_intelligence
+        script: ./open_mcp_scraper.py
+        params:
+          query: "DITO Telecom Philippines market share 2024"
+          fields: ["sov", "mentions", "engagement_rate", "sentiment", "roi"]
+          output: json
+        output: ./results/raw_insights.json
+      
+      - step: format_perplexity_style
+        script: ./format_perplexity_refs.py
+        params:
+          input: ./results/insights.json
+          output: ./results/insights_perplexity.md
+        depends_on: gather_intelligence
+      
+      - step: generate_pdf
+        script: ./export_insights_to_pdf_simple.py
+        params:
+          input: ./results/insights.json
+          output: ./results/enrichment_report.pdf
+        depends_on: gather_intelligence
+      
+      - step: verify_sources
+        script: ./verify_source_ids.py
+        params:
+          config: ./agent_gagambi_enrich.yaml
+          insights: ./results/insights.json
+        depends_on: gather_intelligence
+        continue_on_error: true
+
+outputs:
+  - path: ./results/insights_perplexity.md
+    description: Perplexity-style markdown report with inline references
+  - path: ./results/enrichment_report.pdf
+    description: Professional PDF report
+  - path: ./results/source_verification_report.json
+    description: Source mapping verification results

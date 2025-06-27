@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 font-sans antialiased;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-100;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 rounded-full hover:bg-gray-400;
+  }
+
+  /* Code styling */
+  pre {
+    @apply rounded-lg overflow-x-auto;
+  }
+
+  code {
+    @apply font-mono text-sm;
+  }
+}
+
+@layer components {
+  .step-card {
+    @apply bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-all duration-200;
+  }
+
+  .step-card.active {
+    @apply border-primary-500 shadow-md;
+  }
+
+  .step-card.completed {
+    @apply border-success-500 bg-success-50;
+  }
+
+  .btn-primary {
+    @apply bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 px-4 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2;
+  }
+
+  .input-base {
+    @apply bg-white border border-gray-300 rounded-lg px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200;
+  }
+
+  .tab-button {
+    @apply px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200 border-b-2 border-transparent;
+  }
+
+  .tab-button.active {
+    @apply text-primary-600 border-primary-500;
+  }
+
+  .progress-step {
+    @apply flex items-center gap-3 p-3 rounded-lg transition-all duration-200;
+  }
+
+  .progress-step.active {
+    @apply bg-primary-50 text-primary-700;
+  }
+
+  .progress-step.completed {
+    @apply text-success-600;
+  }
+
+  .reference-badge {
+    @apply inline-flex items-center justify-center w-5 h-5 text-xs font-medium bg-primary-100 text-primary-700 rounded-full;
+  }
+
+  .source-card {
+    @apply bg-gray-50 rounded-lg p-4 border border-gray-200 hover:border-gray-300 transition-colors duration-200;
+  }
+}

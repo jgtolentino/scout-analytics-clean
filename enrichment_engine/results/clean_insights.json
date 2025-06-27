@@ -1,0 +1,28 @@
+{
+  "query": "DITO Telecom Philippines market share 2024",
+  "timestamp": "2025-06-28T01:54:00.000000",
+  "sources": [
+    {
+      "title": "DITO Telecom surges with 50% revenue growth in 2024",
+      "url": "https://example.com/dito-growth",
+      "metrics_found": ["sov", "sentiment"]
+    },
+    {
+      "title": "Philippine telecom market analysis: DITO gains ground",
+      "url": "https://example.com/market-analysis",
+      "metrics_found": ["sov", "mentions"]
+    }
+  ],
+  "metrics": {
+    "sov": "21.7%",
+    "mentions": "15,423",
+    "engagement_rate": "116.95%",
+    "sentiment": "86.7%"
+  },
+  "insights": [
+    "DITO's Share of Voice increased to 21.7%",
+    "Social Mentions reached 15,423 detected across platforms",
+    "Engagement Rate achieved 116.95% above industry benchmarks",
+    "Positive Sentiment measured at 86.7%"
+  ]
+}

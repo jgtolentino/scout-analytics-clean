@@ -1,0 +1,207 @@
+# Gagambi Enrichment Agent Configuration
+# Custom intelligence enrichment using open-source tools only
+
+agent: gagambi
+codename: enrichment_composer
+version: 1.0.0
+description: >
+  Enriches campaign performance data with open-source intelligence using a custom 
+  MCP-style web scraping engine and local benchmark store. Replicates Meltwater, 
+  SimilarWeb, and Statista insights without proprietary APIs.
+
+capabilities:
+  - web_intelligence_gathering
+  - competitive_analysis
+  - benchmark_comparison  
+  - sentiment_analysis
+  - market_share_estimation
+  - roi_calculation
+  - trend_identification
+
+tools:
+  - name: open_mcp_scraper
+    path: ./open_mcp_scraper.py
+    type: custom_scraper
+    description: DuckDuckGo-powered intelligence gathering
+    
+  - name: benchmarks_store
+    path: ./benchmarks.yaml
+    type: static_data
+    description: Industry KPI benchmarks and competitive intelligence
+
+tasks:
+  - name: enrich_campaign_report
+    description: Enhance campaign data with external intelligence
+    inputs:
+      - source_file: "./raw/campaign_metrics.pdf"
+        type: campaign_data
+      - brand_query: "DITO Telecom Philippines"
+        industry: telecommunications
+        competitors: ["Globe", "Smart"]
+    
+    workflow:
+      - step: extract_base_metrics
+        description: Parse original campaign data
+        output: base_metrics.json
+        
+      - step: gather_web_intelligence
+        description: Scrape competitive and market data
+        script: ./open_mcp_scraper.py
+        params:
+          queries:
+            - "DITO Telecom share of voice Philippines 2024"
+            - "DITO vs Globe Smart market share"
+            - "Philippine telecom social media engagement"
+            - "DITO independence day campaign performance"
+          fields: ["sov", "mentions", "engagement_rate", "sentiment", "roi", "hashtags"]
+        output: web_intelligence.json
+        
+      - step: load_benchmarks
+        description: Load industry benchmarks
+        source: ./benchmarks.yaml
+        filter: 
+          industry: telecommunications
+          content_type: social_media
+        output: relevant_benchmarks.json
+        
+      - step: comparative_analysis
+        description: Compare metrics against benchmarks and competitors
+        inputs: [base_metrics.json, web_intelligence.json, relevant_benchmarks.json]
+        calculations:
+          - performance_vs_benchmark
+          - competitive_positioning
+          - trend_analysis
+          - roi_effectiveness
+        output: enriched_analysis.json
+        
+      - step: generate_insights
+        description: Create human-readable enhanced insights
+        template: campaign_enhancement
+        output_format: markdown
+        sections:
+          - executive_summary
+          - share_of_voice_analysis
+          - competitive_intelligence
+          - engagement_performance
+          - roi_assessment
+          - strategic_recommendations
+
+output_templates:
+  campaign_enhancement: |
+    # 📊 Enhanced Campaign Intelligence Report
+    
+    ## 🎯 Executive Summary
+    **Campaign:** {{campaign_name}}
+    **Period:** {{campaign_period}}
+    **Enhanced:** {{timestamp}}
+    
+    {{executive_summary}}
+    
+    ## 📈 Share of Voice Analysis
+    {{#sov_data}}
+    **Market Position:** {{brand_sov}}% (vs Industry Avg: {{industry_avg}}%)
+    **Competitive Landscape:**
+    {{#competitors}}
+    - {{name}}: {{sov}}%
+    {{/competitors}}
+    
+    **Performance vs Benchmark:** {{sov_vs_benchmark}}
+    {{/sov_data}}
+    
+    ## 🏆 Competitive Intelligence
+    {{#competitive_analysis}}
+    **Market Share Insights:**
+    {{market_insights}}
+    
+    **Engagement Comparison:**
+    {{engagement_comparison}}
+    
+    **Content Strategy Analysis:**
+    {{content_strategy}}
+    {{/competitive_analysis}}
+    
+    ## 🎪 Engagement Performance
+    {{#engagement_metrics}}
+    **Overall Engagement Rate:** {{overall_er}}%
+    - vs Facebook Average ({{fb_avg}}%): {{fb_performance}}
+    - vs Industry Benchmark ({{industry_benchmark}}%): {{industry_performance}}
+    
+    **Platform Breakdown:**
+    {{#platforms}}
+    - **{{platform}}:** {{engagement_rate}}% ({{vs_benchmark}})
+    {{/platforms}}
+    {{/engagement_metrics}}
+    
+    ## 💰 ROI Assessment  
+    {{#roi_analysis}}
+    **Campaign ROI:** {{campaign_roi}}%
+    **Industry Benchmark:** {{industry_roi_avg}}%
+    **Performance Rating:** {{roi_rating}}
+    
+    **EMV Calculation:**
+    - Total EMV: ₱{{total_emv}}
+    - EMV Growth: {{emv_growth}}%
+    - Cost Efficiency: {{cost_efficiency}}
+    {{/roi_analysis}}
+    
+    ## 🚀 Strategic Recommendations
+    {{#recommendations}}
+    ### Immediate Actions:
+    {{#immediate}}
+    - {{action}}
+    {{/immediate}}
+    
+    ### Strategic Optimizations:
+    {{#strategic}}
+    - {{optimization}}
+    {{/strategic}}
+    
+    ### Competitive Advantages:
+    {{#advantages}}
+    - {{advantage}}
+    {{/advantages}}
+    {{/recommendations}}
+    
+    ---
+    *Report generated by Gagambi Enrichment Engine using open-source intelligence*
+
+execution:
+  mode: automated
+  triggers:
+    - new_campaign_data
+    - scheduled_weekly
+    - manual_request
+  
+  error_handling:
+    - retry_failed_scrapes: 3
+    - fallback_to_cached_data: true
+    - notify_on_benchmark_updates: true
+  
+  performance:
+    - parallel_scraping: true
+    - cache_results: 24h
+    - rate_limit: 1req/sec
+
+integrations:
+  pulser_cli:
+    command: ":clodrep run agent_gagambi_enrich.yaml"
+    input_formats: [pdf, json, csv]
+    output_formats: [markdown, json, html]
+  
+  export_options:
+    - dashboard_widget
+    - email_report  
+    - slack_notification
+    - pdf_generation
+
+monitoring:
+  metrics:
+    - scraping_success_rate
+    - data_freshness
+    - benchmark_accuracy
+    - report_generation_time
+  
+  alerts:
+    - scraping_failures
+    - data_anomalies
+    - competitive_intelligence_updates

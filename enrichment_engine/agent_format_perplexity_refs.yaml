@@ -1,0 +1,11 @@
+agent: gagambi
+codename: perplexity_formatter
+version: 1.0.0
+description: Format enrichment insights with Perplexity-style inline references
+
+tasks:
+  - name: Format with Perplexity References
+    script: ./format_perplexity_refs.py
+    params:
+      input: ./results/insights.json
+      output: ./results/insights_perplexity.md

@@ -1,0 +1,169 @@
+# Industry Benchmarks for Campaign Enrichment
+# Source: Open intelligence gathered from industry reports and public data
+
+benchmarks:
+  social_media:
+    facebook:
+      engagement_rate:
+        average: 0.9
+        top_quartile: 2.5
+        excellent: 5.0
+      reach_rate:
+        average: 5.2
+        good: 8.0
+        excellent: 12.0
+      
+    instagram:
+      engagement_rate:
+        average: 1.22
+        top_quartile: 3.5
+        excellent: 6.0
+      story_completion_rate:
+        average: 70
+        good: 85
+        excellent: 95
+    
+    tiktok:
+      completion_rate:
+        average: 5.8
+        good: 12.0
+        excellent: 25.0
+      engagement_rate:
+        average: 17.5
+        good: 25.0
+        excellent: 40.0
+      growth_rate:
+        qsr_avg: 3.2
+        qsr_top: 12.5
+        telco_avg: 2.8
+        telco_top: 15.0
+    
+    twitter:
+      engagement_rate:
+        average: 0.045
+        good: 0.09
+        excellent: 0.15
+      retweet_rate:
+        average: 0.4
+        good: 1.0
+        excellent: 2.5
+
+  industry_specific:
+    telecommunications:
+      roi_avg: 3.8
+      roi_top_quartile: 6.5
+      roi_excellent: 10.0
+      emv_per_mention:
+        globe: 0.89
+        smart: 0.92
+        dito: 1.15
+      share_of_voice:
+        globe: 45.2
+        smart: 42.8
+        dito: 12.0
+      sentiment_benchmark:
+        positive_threshold: 60
+        negative_threshold: 15
+        neutral_range: 25
+    
+    quick_service_restaurants:
+      roi_avg: 4.2
+      roi_top_quartile: 7.8
+      social_growth_avg: 8.5
+      engagement_multiplier: 2.3
+      peak_hours: ["11:00-13:00", "18:00-21:00"]
+    
+    retail:
+      conversion_rate_avg: 2.8
+      basket_size_multiplier: 1.6
+      seasonal_boost: 35
+      loyalty_impact: 12
+
+  content_performance:
+    video_content:
+      completion_rate_threshold: 75
+      engagement_boost: 3.2
+      share_rate_multiplier: 4.1
+    
+    image_content:
+      engagement_baseline: 1.8
+      save_rate_good: 2.5
+      comment_rate_avg: 0.8
+    
+    carousel_content:
+      swipe_rate_avg: 45
+      engagement_boost: 1.9
+      conversion_uplift: 2.1
+
+  campaign_types:
+    awareness:
+      reach_target: 500000
+      frequency_optimal: 3.2
+      cpm_benchmark: 45
+    
+    engagement:
+      interaction_rate_target: 5.5
+      comment_rate_target: 1.2
+      share_rate_target: 0.8
+    
+    conversion:
+      click_through_rate_target: 2.5
+      conversion_rate_target: 12
+      cost_per_acquisition_benchmark: 125
+
+  seasonal_adjustments:
+    holidays:
+      christmas: 
+        engagement_boost: 45
+        reach_multiplier: 1.8
+      independence_day:
+        patriotic_sentiment_boost: 25
+        engagement_uplift: 18
+      new_year:
+        resolution_content_boost: 30
+        engagement_peak: 12
+    
+    monthly_trends:
+      january: 0.85  # Post-holiday dip
+      february: 0.95
+      march: 1.05
+      april: 1.10
+      may: 1.15
+      june: 1.20  # Summer peak
+      july: 1.25
+      august: 1.15
+      september: 1.05  # Back-to-school
+      october: 1.10
+      november: 1.35  # Holiday prep
+      december: 1.50  # Holiday peak
+
+  competitive_intelligence:
+    market_leaders:
+      telco:
+        - globe: 45.2
+        - smart: 42.8
+        - dito: 12.0
+      qsr:
+        - mcdonalds: 28.5
+        - jollibee: 35.2
+        - kfc: 18.3
+      retail:
+        - sm: 22.1
+        - ayala: 18.7
+        - robinsons: 14.2
+
+  emv_calculations:
+    base_rates:
+      facebook_post: 0.25
+      instagram_post: 0.30
+      tiktok_video: 0.45
+      twitter_tweet: 0.15
+      youtube_video: 0.85
+    
+    multipliers:
+      influencer_tier1: 5.0
+      influencer_tier2: 3.2
+      influencer_tier3: 1.8
+      celebrity_endorsement: 12.5
+      viral_content: 8.0
+      ugc_content: 2.1
