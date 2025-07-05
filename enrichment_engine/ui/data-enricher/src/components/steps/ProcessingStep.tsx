@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useEnrichmentStore } from '../../store/enrichmentStore';
 
 export const ProcessingStep: React.FC = () => {
-  const { processing } = useEnrichmentStore();
+  const { processing, campaignData, addLog, updateProcessingState } = useEnrichmentStore();
+  const [liveLogs, setLiveLogs] = useState<string[]>([]);
+  const [scrapersEnabled, setScrapersEnabled] = useState<boolean | null>(null);
 
   useEffect(() => {
     // Auto-scroll logs to bottom
@@ -10,7 +12,54 @@ export const ProcessingStep: React.FC = () => {
     if (logsContainer) {
       logsContainer.scrollTop = logsContainer.scrollHeight;
     }
-  }, [processing.logs]);
+  }, [processing.logs, liveLogs]);
+
+  useEffect(() => {
+    // Listen for live scraping logs
+    const handleScrapingLog = (event: any) => {
+      const data = event.detail;
+      
+      if (data.type === 'status') {
+        setScrapersEnabled(data.scrapers_enabled);
+        addLog(`🔧 ${data.message}`);
+        if (data.scrapers_enabled) {
+          updateProcessingState({ currentStage: 'Starting live scrapers' });
+        } else {
+          updateProcessingState({ currentStage: 'Running in mock mode' });
+        }
+      } else if (data.type === 'log') {
+        const logMessage = `${data.message}`;
+        setLiveLogs(prev => [...prev, logMessage]);
+        addLog(logMessage);
+        
+        // Update progress based on log content
+        if (data.message.includes('Connecting')) {
+          updateProcessingState({ progress: Math.min(processing.progress + 5, 90) });
+        } else if (data.message.includes('Found') || data.message.includes('Saved')) {
+          updateProcessingState({ progress: Math.min(processing.progress + 10, 95) });
+        }
+      } else if (data.type === 'complete') {
+        addLog('🎉 Live scraping completed!');
+        updateProcessingState({ 
+          progress: 100, 
+          currentStage: 'Enrichment completed',
+          isRunning: false 
+        });
+      } else if (data.type === 'error') {
+        addLog(`❌ ${data.message}`);
+        updateProcessingState({ 
+          isRunning: false,
+          currentStage: 'Error occurred' 
+        });
+      }
+    };
+
+    window.addEventListener('scrapingLog', handleScrapingLog);
+    
+    return () => {
+      window.removeEventListener('scrapingLog', handleScrapingLog);
+    };
+  }, [addLog, updateProcessingState, processing.progress]);
 
   const stages = [
     'Extracting base metrics',
@@ -23,9 +72,23 @@ export const ProcessingStep: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-2">Processing Enrichment</h2>
+        <div className="flex items-center justify-between mb-2">
+          <h2 className="text-2xl font-semibold text-gray-900">Processing Enrichment</h2>
+          {scrapersEnabled !== null && (
+            <div className={`px-3 py-1 rounded-full text-sm font-medium ${
+              scrapersEnabled 
+                ? 'bg-green-100 text-green-800' 
+                : 'bg-yellow-100 text-yellow-800'
+            }`}>
+              {scrapersEnabled ? '🟢 Live Mode' : '🧪 Mock Mode'}
+            </div>
+          )}
+        </div>
         <p className="text-gray-600 mb-8">
-          Your campaign data is being enriched with intelligence from multiple sources.
+          {scrapersEnabled 
+            ? 'Your campaign data is being enriched with live web scraping from real sources.' 
+            : 'Your campaign data is being enriched with simulated data (set ENABLE_SCRAPERS=true for live mode).'
+          }
         </p>
 
         {/* Progress Overview */}

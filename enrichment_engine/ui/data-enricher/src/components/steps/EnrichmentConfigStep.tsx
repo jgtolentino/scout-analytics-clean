@@ -5,12 +5,16 @@ import {
   UsersIcon,
   PlusIcon,
   XMarkIcon,
+  SparklesIcon,
 } from '@heroicons/react/24/outline';
 import { useEnrichmentStore } from '../../store/enrichmentStore';
+import { autoConfigService } from '../../services/autoConfigService';
 
 export const EnrichmentConfigStep: React.FC = () => {
   const { config, updateConfig, runEnrichmentPipeline, markStepCompleted } = useEnrichmentStore();
   const [newCompetitor, setNewCompetitor] = useState('');
+  const [isAutoConfiguring, setIsAutoConfiguring] = useState(false);
+  const [autoConfigError, setAutoConfigError] = useState<string | null>(null);
 
   const handleSourceToggle = (source: keyof typeof config.sources) => {
     updateConfig({
@@ -48,6 +52,28 @@ export const EnrichmentConfigStep: React.FC = () => {
     runEnrichmentPipeline();
   };
 
+  const handleAutoConfig = async () => {
+    setIsAutoConfiguring(true);
+    setAutoConfigError(null);
+    
+    try {
+      const autoConfig = await autoConfigService.runAutoConfig();
+      
+      // Update the form with the generated config
+      updateConfig({
+        query: autoConfig.query,
+        fields: autoConfig.fields
+      });
+      
+      console.log('Auto-configuration applied:', autoConfig);
+    } catch (error) {
+      console.error('Auto-configuration failed:', error);
+      setAutoConfigError(error instanceof Error ? error.message : 'Auto-configuration failed');
+    } finally {
+      setIsAutoConfiguring(false);
+    }
+  };
+
   const enrichmentSources = [
     {
       id: 'webScraping',
@@ -81,10 +107,32 @@ export const EnrichmentConfigStep: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-2">Configure Enrichment</h2>
-        <p className="text-gray-600 mb-8">
-          Select data sources and fields to enrich your campaign metrics.
-        </p>
+        <div className="flex justify-between items-start mb-8">
+          <div>
+            <h2 className="text-2xl font-semibold text-gray-900 mb-2">Configure Enrichment</h2>
+            <p className="text-gray-600">
+              Select data sources and fields to enrich your campaign metrics.
+            </p>
+          </div>
+          <button
+            onClick={handleAutoConfig}
+            disabled={isAutoConfiguring}
+            className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white rounded-lg transition-all ${
+              isAutoConfiguring 
+                ? 'bg-gray-400 cursor-not-allowed' 
+                : 'bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600'
+            }`}
+          >
+            <SparklesIcon className="w-4 h-4" />
+            {isAutoConfiguring ? 'Analyzing...' : 'Auto-Configure from Report'}
+          </button>
+        </div>
+
+        {autoConfigError && (
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+            {autoConfigError}
+          </div>
+        )}
 
         {/* Enrichment Sources */}
         <div className="mb-8">

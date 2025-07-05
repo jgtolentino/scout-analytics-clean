@@ -2,7 +2,8 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
-import inject from '@rollup/plugin-inject';
+import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
+import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
 
 export default defineConfig({
   plugins: [
@@ -12,10 +13,6 @@ export default defineConfig({
     nodePolyfills({
       include: ['buffer', 'events', 'stream', 'util'],
       protocolImports: true,
-    }),
-    inject({
-      Buffer: ['buffer', 'Buffer'],
-      process: 'process'
     })
   ],
   resolve: {
@@ -33,7 +30,11 @@ export default defineConfig({
   optimizeDeps: {
     include: ['buffer','process'],
     esbuildOptions: {
-      define: { global: 'globalThis' }
+      define: { global: 'globalThis', 'process.env': '{}' },
+      plugins: [
+        NodeGlobalsPolyfillPlugin({ process: true, buffer: true }),
+        NodeModulesPolyfillPlugin()
+      ]
     }
   },
   define: {
@@ -43,6 +44,9 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: true,
     rollupOptions: {
+      plugins: [
+        nodePolyfills()
+      ],
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
@@ -57,7 +61,11 @@ export default defineConfig({
   server: {
     port: 5173,
     open: true,
-    host: true
+    host: true,
+    hmr: {
+      host: 'localhost',
+      port: 5173
+    }
   },
   preview: {
     port: 4173,

@@ -4,7 +4,7 @@ version: 1.0.0
 description: Format enrichment insights with Perplexity-style inline references
 
 tasks:
-  - name: Format with Perplexity References
+  - name: format_with_perplexity_references
     script: ./format_perplexity_refs.py
     params:
       input: ./results/insights.json

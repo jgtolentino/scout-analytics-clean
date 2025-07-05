@@ -79,7 +79,7 @@ export const useEnrichmentStore = create<EnrichmentStore>((set, get) => ({
   setCurrentStep: (step) => set({ currentStep: step }),
   markStepCompleted: (step) =>
     set((state) => ({
-      completedSteps: [...new Set([...state.completedSteps, step])],
+      completedSteps: Array.from(new Set([...state.completedSteps, step])),
     })),
 
   // Data Input
@@ -156,7 +156,7 @@ export const useEnrichmentStore = create<EnrichmentStore>((set, get) => ({
     }),
 
   runEnrichmentPipeline: async () => {
-    const { config, campaignData, addLog, updateProcessingState, setResults } = get();
+    const { config, addLog, updateProcessingState, setResults, campaignData } = get();
     
     try {
       // Start processing
@@ -164,99 +164,91 @@ export const useEnrichmentStore = create<EnrichmentStore>((set, get) => ({
         currentStep: 'processing',
         processing: {
           isRunning: true,
-          currentStage: 'Extracting base metrics',
-          progress: 10,
+          currentStage: 'Initializing pipeline',
+          progress: 5,
           logs: ['Starting enrichment pipeline...'],
         }
       });
 
-      // Simulate pipeline stages
-      const stages = [
-        { name: 'Extracting base metrics', progress: 20 },
-        { name: 'Gathering web intelligence', progress: 40 },
-        { name: 'Loading benchmarks', progress: 60 },
-        { name: 'Analyzing data', progress: 80 },
-        { name: 'Generating insights', progress: 100 },
-      ];
-
-      for (const stage of stages) {
-        updateProcessingState({
-          currentStage: stage.name,
-          progress: stage.progress,
-        });
-        addLog(`${stage.name}...`);
-        
-        // Simulate processing time
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+      const jobId = campaignData?.executingJobId;
+      if (!jobId) {
+        throw new Error('No job ID found. Please upload and analyze a file first.');
       }
 
-      // Mock results
-      const mockResults: EnrichmentResults = {
-        metrics: [
-          {
-            name: 'Share of Voice',
-            originalValue: '15%',
-            enrichedValue: '21.7%',
-            change: 44.7,
-            sources: ['1', '2'],
-          },
-          {
-            name: 'Engagement Rate',
-            originalValue: '85%',
-            enrichedValue: '116.95%',
-            change: 37.6,
-            sources: ['3'],
-          },
-          {
-            name: 'Sentiment Score',
-            originalValue: '75%',
-            enrichedValue: '86.7%',
-            change: 15.6,
-            sources: ['4'],
-          },
-        ],
-        insights: [
-          "Campaign outperformed industry benchmarks by 41.8x",
-          "Share of Voice increased 7% quarter-over-quarter",
-          "Positive sentiment exceeds competitor average by 18%",
-        ],
-        references: [
-          {
-            id: 1,
-            title: 'Industry Market Analysis Q2 2024',
-            url: 'https://example.com/analysis',
-            metricsFound: ['sov', 'roi'],
-          },
-          {
-            id: 2,
-            title: 'Competitive Intelligence Report',
-            url: 'https://example.com/competitive',
-            metricsFound: ['sov', 'mentions'],
-          },
-          {
-            id: 3,
-            title: 'Social Media Engagement Study',
-            url: 'https://example.com/engagement',
-            metricsFound: ['engagement_rate'],
-          },
-          {
-            id: 4,
-            title: 'Brand Sentiment Analysis',
-            url: 'https://example.com/sentiment',
-            metricsFound: ['sentiment'],
-          },
-        ],
-      };
+      addLog(`Starting enrichment for job: ${jobId}`);
+      updateProcessingState({ currentStage: 'Executing scraping tasks', progress: 10 });
 
-      setResults(mockResults);
-      set({ 
-        currentStep: 'results',
-        completedSteps: ['data_input', 'enrichment_config', 'processing', 'results'],
-      });
-      addLog('✅ Enrichment pipeline completed successfully!');
-      
-    } catch (error) {
-      addLog(`❌ Error: ${error}`);
+      // Monitor the executing job
+      const pollInterval = setInterval(async () => {
+        try {
+          const response = await fetch(`http://localhost:8000/status/${jobId}`);
+          const job = await response.json();
+
+          if (job.status === 'executing') {
+            addLog('Scraping competitive intelligence data...');
+            updateProcessingState({ progress: Math.min(get().processing.progress + 5, 80) });
+          } else if (job.status === 'completed') {
+            clearInterval(pollInterval);
+            
+            addLog('✅ Data collection completed!');
+            updateProcessingState({ 
+              currentStage: 'Processing results',
+              progress: 90 
+            });
+
+            // Transform job results to our format
+            const results: EnrichmentResults = {
+              metrics: Object.entries(job.results?.data_collected || {}).map(([scraper, count]) => ({
+                name: scraper.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+                originalValue: 'N/A',
+                enrichedValue: `${count} data points`,
+                change: 0,
+                sources: [scraper]
+              })),
+              insights: [
+                `Scrapers executed: ${job.results?.scrapers_run?.join(', ') || 'None'}`,
+                `Total data points collected: ${Object.values(job.results?.data_collected || {}).reduce((a: any, b: any) => a + b, 0)}`,
+                `Output directory: ${job.results?.output_directory || 'N/A'}`,
+                `Completed at: ${new Date().toLocaleString()}`
+              ],
+              references: (job.results?.scrapers_run || []).map((scraper: string, index: number) => ({
+                id: index + 1,
+                title: `${scraper.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} Data`,
+                url: job.results?.output_directory || '#',
+                metricsFound: campaignData?.missingFields || []
+              }))
+            };
+            
+            setResults(results);
+            updateProcessingState({ progress: 100 });
+            set({ 
+              currentStep: 'results',
+              completedSteps: ['data_input', 'enrichment_config', 'processing', 'results'],
+            });
+            addLog('✅ Enrichment pipeline completed successfully!');
+            
+          } else if (job.status === 'failed') {
+            clearInterval(pollInterval);
+            throw new Error(`Job failed: ${job.error}`);
+          }
+        } catch (error: any) {
+          clearInterval(pollInterval);
+          throw error;
+        }
+      }, 3000);
+
+      // Fallback to clear interval after 5 minutes
+      setTimeout(() => {
+        clearInterval(pollInterval);
+        if (get().processing.isRunning) {
+          addLog('⚠️ Job monitoring timed out');
+          updateProcessingState({ isRunning: false });
+        }
+      }, 300000);
+
+      return; // Early return since we're using polling
+    } catch (error: any) {
+      addLog(`❌ Error: ${error.message}`);
       updateProcessingState({
         isRunning: false,
         currentStage: 'Error occurred',

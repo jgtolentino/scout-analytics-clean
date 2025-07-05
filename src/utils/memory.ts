@@ -75,7 +75,7 @@ class MemoryManager {
   private initializeSupabase() {
     try {
       const supabaseUrl = this.config.supabaseUrl || process.env.NEXT_PUBLIC_SUPABASE_URL;
-      const supabaseKey = this.config.supabaseKey || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+      const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
       if (supabaseUrl && supabaseKey) {
         this.supabase = createClient(supabaseUrl, supabaseKey);

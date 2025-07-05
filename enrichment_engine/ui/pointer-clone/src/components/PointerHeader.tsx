@@ -23,7 +23,7 @@ export const PointerHeader: React.FC = () => {
       {/* Center Title */}
       <div className="absolute left-1/2 transform -translate-x-1/2">
         <h1 className="text-sm font-mono uppercase tracking-widest text-gray-700">
-          POINTER
+          TBWA\MCP
         </h1>
       </div>
 

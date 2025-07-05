@@ -4,7 +4,7 @@ version: 1.0.0
 description: Verify source ID mapping between config and scraped data
 
 tasks:
-  - name: Verify Source IDs
+  - name: verify_source_ids
     script: ./verify_source_ids.py
     params:
       config: ./agent_gagambi_enrich.yaml

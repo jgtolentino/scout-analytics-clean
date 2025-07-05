@@ -1,6 +1,6 @@
 {
-  "name": "pointer-ui-clone",
-  "version": "0.1.0",
+  "name": "tbwa-mcp",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@heroicons/react": "^2.0.18",
@@ -17,6 +17,8 @@
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
     "clsx": "^2.0.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
     "framer-motion": "^10.16.16",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -32,7 +34,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "serve": "npx serve -s build -l 3002",
+    "preview": "npm run serve",
+    "start:server": "node backend/server.js"
   },
   "eslintConfig": {
     "extends": [
@@ -40,6 +45,7 @@
       "react-app/jest"
     ]
   },
+  "proxy": "http://localhost:4000",
   "browserslist": {
     "production": [
       ">0.2%",

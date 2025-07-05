@@ -7,6 +7,7 @@ import {
   Squares2X2Icon,
   QuestionMarkCircleIcon,
   Cog6ToothIcon,
+  BeakerIcon,
 } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 
@@ -18,6 +19,7 @@ interface PointerSidebarProps {
 export const PointerSidebar: React.FC<PointerSidebarProps> = ({ activeView, onViewChange }) => {
   const menuItems = [
     { id: 'home', icon: HomeIcon, label: 'Home' },
+    { id: 'enrichment', icon: BeakerIcon, label: 'Enrichment' },
     { id: 'explore', icon: SparklesIcon, label: 'Explore' },
     { id: 'history', icon: ClockIcon, label: 'History' },
     { id: 'list', icon: Bars3Icon, label: 'List' },

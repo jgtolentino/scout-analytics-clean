@@ -7,7 +7,7 @@ import {
 } from '@heroicons/react/24/outline';
 
 export const WorkspaceView: React.FC = () => {
-  const currentWorkspace = '/Users/tbwa/pointer-workspace';
+  const currentWorkspace = '/Users/tbwa/mcp-workspace';
   
   const actionCards = [
     {
@@ -32,8 +32,12 @@ export const WorkspaceView: React.FC = () => {
 
   const recentWorkspaces = [
     {
-      name: 'pointer-workspace',
-      path: '/Users/tbwa/pointer-workspace',
+      name: 'mcp-workspace',
+      path: '/Users/tbwa/mcp-workspace',
+    },
+    {
+      name: 'enrichment-engine',
+      path: '/Users/tbwa/enrichment_engine',
     },
   ];
 
@@ -43,12 +47,14 @@ export const WorkspaceView: React.FC = () => {
         {/* Logo and Title */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-2">
-            <div className="w-10 h-10 bg-gray-900 rounded-lg flex items-center justify-center">
-              <div className="w-6 h-6 bg-white rounded-sm transform rotate-45"></div>
+            <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-blue-600 rounded-lg flex items-center justify-center">
+              <div className="w-6 h-6 bg-white rounded-sm flex items-center justify-center">
+                <span className="text-xs font-bold text-gray-900">M</span>
+              </div>
             </div>
-            <h1 className="text-3xl font-bold tracking-wider">POINTER</h1>
+            <h1 className="text-3xl font-bold tracking-wider">TBWA\MCP</h1>
           </div>
-          <p className="text-gray-500 text-lg">Settings</p>
+          <p className="text-gray-500 text-lg">AI Agent Workspace Platform</p>
         </div>
 
         {/* Action Cards */}

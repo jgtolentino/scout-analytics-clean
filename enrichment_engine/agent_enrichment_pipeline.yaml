@@ -4,7 +4,7 @@ version: 1.0.0
 description: End-to-end enrichment pipeline with Perplexity-style referencing
 
 tasks:
-  - name: Complete Enrichment Pipeline
+  - name: complete_enrichment_pipeline
     description: Run full intelligence gathering, formatting, and export pipeline
     workflow:
       - step: gather_intelligence

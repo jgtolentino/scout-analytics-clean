@@ -26,4 +26,12 @@ env_map:
   aoai_endpoint:
     vault: kv-projectscout-prod
     secret_name: aoai-endpoint
-permissions: [azure_keyvault:read]
+permissions: 
+  - azure_keyvault:read
+  - secret_management
+  - credential_access
+
+healthcheck: __healthcheck.ts
+auditing: true
+schema_validation: schema.ts
+version: 1.0.0
