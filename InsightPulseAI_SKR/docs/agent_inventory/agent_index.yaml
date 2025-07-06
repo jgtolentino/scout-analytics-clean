@@ -1,0 +1,729 @@
+agents:
+- file: ./tools/js/agents/dash_21st_magic.yaml
+  name: Dashboard Builder with 21st Magic
+  codename: dashboard_builder_with_21st_magic
+  description: Enhanced Dashboard Builder agent that integrates 21st Magic visualization
+    capabilities, enabling advanced data storytelling, interactive animations, and
+    real-time data visualization with minimal configuration. Supports all existing
+    Dash capabilities while adding magical 3D visualization and motion graphics.
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities: []
+- file: ./tools/js/agents/codex_dash.yaml
+  name: Codex Dash Integration
+  codename: codex_dash_integration
+  description: '| This agent provides enterprise-grade functionality with comprehensive
+    error handling, performance optimization, and full observability for production
+    environments. Enables Codex to generate, validate, and deploy dashboards through
+    Dash while enforcing all guardrails policies. This integration allows for automated
+    dashboard workflows with quality checks and safety controls.'
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities: []
+- file: ./agents/dash.dashboard.yaml
+  name: Dash
+  codename: dash
+  description: '"Dashboard deployment agent for Scout Projects" This agent provides
+    enterprise-grade functionality with comprehensive error handling, performance
+    optimization, and full observability for production environments.'
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities: []
+- file: ./tools/js/agents/codex/agent_codex.yaml
+  name: codex
+  codename: codex
+  description: Agent for handling specific tasks
+  permissions: []
+  memory_tags: []
+  version: '1.0'
+  capabilities: []
+- file: ./tools/js/agents/voice_calendar_deploy/pulserrc_patch.yaml
+  name: voice_calendar_deploy
+  codename: voice_calendar_deploy
+  description: Agent for handling specific tasks
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities: []
+- file: ./tools/js/agents/codexv2.yaml
+  name: Codex v2
+  codename: codex_v2
+  description: Autonomous software-engineering agent (OpenAI o3 + Windsurf Cascade)
+    This agent provides enterprise-grade functionality with comprehensive error handling,
+    performance optimization, and full observability for production environments.
+  permissions: []
+  memory_tags: []
+  version: 2.0.1
+  capabilities: []
+- file: ./tools/js/agents/visualsynth.yaml
+  name: VisualSynth
+  codename: visualsynth
+  description: Orchestrates dashboard visualization pipeline from schema ingestion
+    to  production-ready interfaces with analytics-driven KPI displays and data storytelling
+    capabilities aligned with TBWA visualization standards. Now with 21st Magic enhanced
+    visualization capabilities for 3D charts and animations.
+  permissions: []
+  memory_tags: []
+  version: 2.3.0
+  capabilities:
+  - Parses natural language requirements into structured KPIs
+  - Maps dashboard elements to database schema
+  - Generates responsive UI layouts with Power BI parity
+  - Builds interactive dashboards with WCAG 2.1 AA compliance
+  - Creates 3D visualizations and animated transitions with 21st Magic
+  - Validates against baseline visuals with screenshot diffing
+  - Deploys to Azure Static Web Apps with GitHub Actions
+- file: ./tools/js/agents/caca.yaml
+  name: Caca
+  codename: caca
+  description: '| This agent provides enterprise-grade functionality with comprehensive
+    error handling, performance optimization, and full observability for production
+    environments. Validates dashboard and agent output against UX, data consistency,
+    and best practices. Provides inline corrections or prompts for agent fine-tuning.'
+  permissions: []
+  memory_tags: []
+  version: 2.0.0
+  capabilities: []
+- file: ./tools/js/agents/dash.agent.yaml
+  name: Dashboard Builder (DASH)
+  codename: dashboard_builder_dash_
+  description: Automates dashboard generation from structured data sources using schema
+    analysis, user intent parsing, and web deployment logic. Supports toggle-driven
+    interfaces, mobile responsiveness, and data storytelling aligned with InsightPulseAI
+    standards.
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities: []
+- file: ./agents/task_router.mcp_chain.yaml
+  name: agents
+  codename: agents
+  description: Agent for handling specific tasks
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities: []
+- file: ./tools/js/mcp/slideforge_mcp/agents/feedback.agent.yaml
+  name: Presentation Reviewer
+  codename: presentation_reviewer
+  description: Reviews slide decks for tone, clarity, pacing, and provides improvement
+    suggestions
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities: []
+- file: ./tools/js/mcp/slideforge_mcp/agents/slidebuilder.agent.yaml
+  name: Slide Builder
+  codename: slide_builder
+  description: Renders slide deck JSON into HTML/React components using SSR
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities: []
+- file: ./tools/js/mcp/slideforge_mcp/agents/deckgen.agent.yaml
+  name: Deck Generator
+  codename: deck_generator
+  description: Generate slide decks from natural language prompts using Claude Max
+    This agent provides enterprise-grade functionality with comprehensive error handling,
+    performance optimization, and full observability for production environments.
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities: []
+- file: ./tools/js/mcp/audio_analysis_mcp/agents/audio_analysis.yaml
+  name: audio-analysis-call-centre-qa
+  codename: audio_analysis_call_centre_qa
+  description: Advanced audio analysis system for call quality assessment, sentiment
+    analysis, and performance insights
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities:
+  - audio_quality_assessment
+  - speech_transcription
+  - sentiment_analysis
+  - call_centre_qa
+  - customer_satisfaction_analysis
+  - audio_search_indexing
+- file: ./tools/js/mcp/creative_rag_mcp/agents/creative_rag.yaml
+  name: creative-rag-analyst
+  codename: creative_rag_analyst
+  description: Vector-powered RAG agent for creative asset discovery and analysis
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities:
+  - vector_search
+  - asset_ingestion
+  - creative_discovery
+  - campaign_analysis
+  - colpali_embeddings
+- file: ./tools/js/mcp/slideforge/agents/slidebuilder.ui.yaml
+  name: slidebuilder
+  codename: slidebuilder
+  description: Converts JSON slide schema into editable UI components
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities: []
+- file: ./tools/js/mcp/slideforge/agents/feedback.reviewer.yaml
+  name: feedback
+  codename: feedback
+  description: AI slide deck reviewer powered by Claude This agent provides enterprise-grade
+    functionality with comprehensive error handling, performance optimization, and
+    full observability for production environments.
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities: []
+- file: ./tools/pulserbuilder/agents/deckgen.yaml
+  name: deckgen
+  codename: deckgen
+  description: Specialized agent for generating interactive presentations and documentation
+  permissions: []
+  memory_tags: []
+  version: 1.5.0
+  capabilities:
+  - slide_deck_generation
+  - interactive_document_creation
+  - data_visualization
+  - content_structuring
+  - narrative_flow_design
+  - theme_creation
+- file: ./tools/js/mcp/voice_agent_mcp/agents/arkie_voice.yaml
+  name: arkie-voice-sdr
+  codename: arkie_voice_sdr
+  description: AI-powered voice agent for automated sales development and call handling
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities:
+  - real_time_voice
+  - speech_to_text
+  - call_analytics
+  - contact_discovery
+  - auto_followup
+  - sentiment_tracking
+- file: ./tools/js/mcp/appgenie/agents/layout-optimizer.yaml
+  name: Layout Optimizer
+  codename: layout_optimizer
+  description: Enhances spacing, component flow, and mobile responsiveness heuristically
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities: []
+- file: ./tools/js/mcp/appgenie/agents/ui-editor.yaml
+  name: UI Editor
+  codename: ui_editor
+  description: Drag-and-drop interface for screen layout and component editing
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities: []
+- file: ./tools/js/mcp/appgenie/agents/preview-engine.yaml
+  name: Preview Engine
+  codename: preview_engine
+  description: Real-time preview in device frames for mobile apps
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities: []
+- file: ./tools/js/mcp/appgenie/agents/deployer.yaml
+  name: App Deployer
+  codename: app_deployer
+  description: Deploys generated app to Expo, PWA, or native app stores
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities: []
+- file: ./tools/js/mcp/appgenie/agents/nlp-parser.yaml
+  name: App Intent Parser
+  codename: app_intent_parser
+  description: Converts natural language prompts into structured app schema
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities: []
+- file: ./tools/js/mcp/appgenie/agents/feedback.yaml
+  name: Design Feedback Agent
+  codename: design_feedback_agent
+  description: Provides AI feedback on app design, UX, and functionality
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities: []
+- file: ./tools/js/mcp/deep_researcher_mcp/agents/deep_researcher.yaml
+  name: deep-researcher-intelligence
+  codename: deep_researcher_intelligence
+  description: Advanced competitive intelligence and market research automation system
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities:
+  - competitive_analysis
+  - market_intelligence
+  - brand_monitoring
+  - trend_analysis
+  - research_automation
+  - intelligence_reporting
+- file: ./tools/js/mcp/briefvault_rag_mcp/agents/briefvault_rag.yaml
+  name: briefvault-rag-processor
+  codename: briefvault_rag_processor
+  description: Advanced RAG system for complex marketing briefs and creative documents
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities:
+  - complex_document_processing
+  - multi_modal_extraction
+  - semantic_search
+  - brief_intelligence
+  - creative_compliance
+  - cross_reference_analysis
+- file: ./tools/js/mcp/financial_analyst_mcp/agents/financial_analyst.yaml
+  name: marketing-kpi-analyst
+  codename: marketing_kpi_analyst
+  description: AI-powered financial analyst for marketing KPI forecasting and ROI
+    analysis
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities:
+  - kpi_analysis
+  - revenue_forecasting
+  - roi_calculation
+  - trend_detection
+  - code_generation
+  - visualization
+- file: ./tools/js/mcp/scout_local_mcp/agents/scout_local.yaml
+  name: scout-local-analytics
+  codename: scout_local_analytics
+  description: 100% offline-capable local analytics agent for Scout field operations
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities:
+  - offline_data_collection
+  - local_trend_analysis
+  - transcription_management
+  - edge_device_sync
+- file: ./tools/js/mcp/pulsedev/agents/slideforge.yaml
+  name: SlideForge
+  codename: slideforge
+  description: Agent for slide deck creation and presentation This agent provides
+    enterprise-grade functionality with comprehensive error handling, performance
+    optimization, and full observability for production environments.
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities:
+  - presentation_creation
+  - ssr_rendering
+  - content_transformation
+  - theme_management
+- file: ./tools/js/mcp/video_rag_mcp/agents/video_rag.yaml
+  name: video-rag-creative-diagnostics
+  codename: video_rag_creative_diagnostics
+  description: Advanced video analysis system for creative performance, brand compliance,
+    and content intelligence
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities:
+  - video_content_analysis
+  - frame_extraction
+  - audio_transcription
+  - brand_compliance_checking
+  - creative_performance_insights
+  - multi_modal_search
+- file: ./tools/js/mcp/synthetic_data_mcp/agents/synthetic_generator.yaml
+  name: ph-retail-synthetic-generator
+  codename: ph_retail_synthetic_generator
+  description: Synthetic data generator for PH retail landscape with TBWA client footprint
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities:
+  - transaction_generation
+  - market_simulation
+  - geo_accurate_locations
+  - tobacco_modeling
+  - data_validation
+- file: ./SKR/archives/project_scout/2025-05/juicer_genai_20250514_074625/agents/snowwhite.yaml
+  name: Snow White
+  codename: snow_white
+  description: White-Labeling & Rebranding Agent for client-facing exports This agent
+    provides enterprise-grade functionality with comprehensive error handling, performance
+    optimization, and full observability for production environments.
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities:
+  - Converts internal references to client-facing aliases
+  - Manages alias maps for client deployments
+  - Applies licensing and compliance filters
+  - Scrubs metadata and audit trails
+  - Formats assets for client delivery
+  - Works with Maya and Claudia for final exports
+- file: ./tools/pulserbuilder/agents/basher.yaml
+  name: basher
+  codename: basher
+  description: DevOps specialist handling deployment, system configuration, and infrastructure
+    management
+  permissions: []
+  memory_tags: []
+  version: 2.2.0
+  capabilities:
+  - project_setup
+  - dependency_management
+  - build_process_optimization
+  - deployment_automation
+  - infrastructure_management
+  - ci_cd_pipeline_configuration
+- file: ./tools/pulserbuilder/agents/claudia.yaml
+  name: claudia
+  codename: claudia
+  description: Orchestration agent that coordinates other agents and manages complex
+    workflows
+  permissions: []
+  memory_tags: []
+  version: 3.0.0
+  capabilities:
+  - agent_orchestration
+  - task_routing
+  - context_management
+  - workflow_optimization
+  - memory_synchronization
+  - error_handling
+- file: ./tools/pulserbuilder/agents/maya.yaml
+  name: maya
+  codename: maya
+  description: UI/UX Designer specialized in translating requirements into beautiful
+    interfaces
+  permissions: []
+  memory_tags: []
+  version: 2.0.0
+  capabilities:
+  - ui_design
+  - wireframe_generation
+  - component_design
+  - accessibility_analysis
+  - information_architecture
+  - workflow_design
+- file: ./agents/tableau/TableauAgent.yaml
+  name: TableauAgent
+  codename: tableauagent
+  description: Enterprise-grade Tableau integration agent for headless dashboard creation,
+    server management, and data visualization automation. Provides comprehensive REST
+    API operations for Tableau Server and Tableau Cloud without requiring browser
+    automation. Supports batch processing, desktop migration, and full observability
+    for production environments.
+  permissions: []
+  memory_tags: []
+  version: 2.0.0
+  capabilities: []
+- file: ./agents/agent_rica.yaml
+  name: Rica
+  codename: rica
+  description: "Rica is InsightPulseAI\u2019s watchdog agent for legal compliance,\
+    \ data governance, and regulatory alignment. She flags risks, tracks policies,\
+    \ and works with Tala and Claudia to ensure everything's within bounds."
+  permissions: []
+  memory_tags: []
+  version: ''
+  capabilities: []
+- file: ./agents/apify_scraper_agent.yaml
+  name: ApifyScraperAgent
+  codename: apifyscraperagent
+  description: 'Hybrid scraper agent that uses Apify actors by default with automatic
+    fallback to PlaywrightCrawler.
+
+    Supports TikTok, Instagram, YouTube, Google Maps scraping for creative brief extraction.
+
+    Used by Gagambi and Pulser for campaign content analysis and enrichment.'
+  permissions:
+  - read:env
+  - use:http
+  - use:playwright
+  - write:temp
+  memory_tags: []
+  version: 1.0.0
+  capabilities:
+  - social_media_scraping
+  - content_extraction
+  - structured_data_parsing
+  - automated_fallback
+  - screenshot_capture
+- file: ./agents/claude/claude.routes.yaml
+  name: claude
+  codename: claude
+  description: Agent for handling specific tasks
+  permissions: []
+  memory_tags: []
+  version: '1.0'
+  capabilities: []
+- file: ./agents/claude/prompt_executor.yaml
+  name: ClaudePromptExecutor
+  codename: claudepromptexecutor
+  description: Claude-powered prompt testing and engineering agent This agent provides
+    enterprise-grade functionality with comprehensive error handling, performance
+    optimization, and full observability for production environments.
+  permissions: []
+  memory_tags: []
+  version: ''
+  capabilities:
+  - prompt_testing
+  - prompt_engineering
+  - version_management
+  - prompt_catalogue
+- file: ./agents/zoho_mail.mcp.yaml
+  name: zoho_mail
+  codename: zoho_mail
+  description: Zoho Mail integration for Pulser providing email sending and vacation
+    reply management
+  permissions: []
+  memory_tags: []
+  version: '1.0'
+  capabilities:
+  - send_internal_email
+  - send_external_email
+  - manage_vacation_replies
+  - refresh_oauth_tokens
+  - test_connectivity
+- file: ./agents/agent_tala.yaml
+  name: Tala
+  codename: tala
+  description: "Tala is InsightPulseAI\u2019s dedicated Finance & Accounting Specialist\
+    \ Agent..."
+  permissions: []
+  memory_tags: []
+  version: ''
+  capabilities: []
+- file: ./agents/personal_assistant.yaml
+  name: MyLocalAssistant
+  codename: mylocalassistant
+  description: Offline voice assistant with calendar control
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities:
+  - voice_interaction
+  - calendar_management
+  - task_scheduling
+  - natural_language_understanding
+  - offline_operation
+- file: ./agents/playwright_scraper_agent.yaml
+  name: PlaywrightScraperAgent
+  codename: playwrightscraperagent
+  description: 'Local browser automation agent using Playwright for web scraping when
+    Apify is unavailable.
+
+    Provides structured data extraction for social media platforms and general web
+    content.
+
+    Used as fallback by ApifyScraperAgent or can be invoked directly.'
+  permissions:
+  - use:playwright
+  - write:temp
+  - read:env
+  memory_tags: []
+  version: 1.0.0
+  capabilities:
+  - browser_automation
+  - dom_extraction
+  - screenshot_capture
+  - content_parsing
+  - multi_platform_support
+- file: ./agents/winsurf/winsurf.yaml
+  name: Winsurf
+  codename: winsurf
+  description: 'Winsurf is an autonomous agent that performs complex coding tasks
+    with minimal supervision.
+
+    It can analyze, plan, and implement changes to the codebase in a structured and
+    reliable way.'
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities:
+  - autonomous_planning
+  - code_analysis
+  - refactoring
+  - bugfixing
+  - automated_testing
+  - code_generation
+  - execution_monitoring
+- file: ./agents/surf/surf.yaml
+  name: Surf
+  codename: surf
+  description: 'Surf is an autonomous agent that performs complex coding tasks with
+    minimal supervision.
+
+    It can analyze, plan, and implement changes to the codebase in a structured and
+    reliable way.'
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities:
+  - autonomous_planning
+  - code_analysis
+  - refactoring
+  - bugfixing
+  - automated_testing
+  - code_generation
+  - execution_monitoring
+- file: ./agents/google_calendar_agent.yaml
+  name: GoogleCalendarAgent
+  codename: googlecalendaragent
+  description: Google Calendar integration for offline personal assistant
+  permissions:
+  - net
+  - fs
+  - env
+  memory_tags: []
+  version: 1.0.0
+  capabilities:
+  - calendar_read
+  - calendar_create
+  - calendar_update
+  - calendar_delete
+  - event_reminders
+- file: ./agents/deepsite-runner.yaml
+  name: DeepSiteRunner
+  codename: deepsiterunner
+  description: 'Local deployment agent for the Hugging Face DeepSite AI website builder.
+
+    Provides secure offline deployment with .env injection for local inference.
+
+    Integrates with creative app building workflows.'
+  permissions:
+  - read:env
+  - write:temp
+  - execute:bash
+  - clone:git
+  memory_tags: []
+  version: 1.0.0
+  capabilities:
+  - huggingface_space_cloning
+  - python_environment_setup
+  - streamlit_deployment
+  - secure_token_injection
+  - local_ai_inference
+- file: ./agents/prompt_vault.yaml
+  name: PromptVault
+  codename: prompt_vault
+  description: Curated prompt library service for enhanced task planning and UI automation
+  permissions:
+  - fs:read-only
+  - cache:read-write
+  memory_tags:
+  - prompts
+  - knowledge-base
+  - hawk
+  - planning-enhancement
+  version: ''
+  capabilities:
+  - prompt_retrieval: Retrieve relevant prompts by category or similarity
+  - prompt_synthesis: Combine multiple prompts for complex tasks
+  - safety_filtering: Filter out unsafe or inappropriate prompts
+  - prompt_evolution: Learn from successful task completions
+- file: ./agents/hawk/task_planner.yaml
+  name: TaskPlanner
+  codename: task_planner
+  description: LLM planner that converts natural language goals into TaskPlan JSON
+    for Hawk execution
+  permissions: []
+  memory_tags:
+  - planning
+  - hawk
+  - task-decomposition
+  - ui-automation
+  version: ''
+  capabilities:
+  - goal_parsing: Parse natural language goals into structured intent
+  - task_decomposition: Break down complex goals into atomic UI actions
+  - context_awareness: Understand application context and workflows
+  - error_recovery: Generate alternative action sequences on failure
+- file: ./agents/hawk/vision_driver.yaml
+  name: VisionDriver
+  codename: vision_driver
+  description: Pixel-level policy network for Hawk - real-time UI element detection
+    and tracking
+  permissions:
+  - vm:sandboxed-gui
+  - fs:read-only
+  - gpu:inference
+  - e2b:spawn
+  memory_tags:
+  - hawk
+  - vision
+  - control
+  - ui-detection
+  version: ''
+  capabilities:
+  - screen_capture: Capture desktop frames at 30-60 fps
+  - element_detection: Detect UI elements using ViT-L + LSTM
+  - bbox_tracking: Track element positions across frames
+  - ocr: Extract text from UI elements
+- file: ./agents/microvm_host.yaml
+  name: MicroVMHost
+  codename: microvm_host
+  description: Spawns isolated Firecracker microVMs via E2B for complete sandboxing.
+    Provides 150ms cold-start with full OS capabilities including browser automation.
+  permissions:
+  - net:outbound
+  - secrets:e2b
+  - monitoring:write
+  memory_tags:
+  - sandbox
+  - microvm
+  - e2b
+  - firecracker
+  version: ''
+  capabilities:
+  - vm_spawning: Create Firecracker microVMs in 150ms
+  - command_execution: Run arbitrary commands in isolated VMs
+  - file_transfer: Upload/download files to/from VMs
+  - persistent_sessions: VMs can run for hours/days
+  - gpu_support: Optional GPU acceleration for ML workloads
+- file: ./agents/doer/doer.yaml
+  name: Doer
+  codename: doer
+  description: Browser control agent that performs web automation tasks based on natural
+    language prefixed with "do". Works with Claude and Puppeteer to execute commands
+    like click, type, scrape, and navigate.
+  permissions:
+  - browser-control
+  - js-dom
+  - network
+  - memory
+  memory_tags:
+  - doer
+  - puppeteer
+  - browser
+  version: ''
+  capabilities: []
+- file: ./agents/text2speech_bot.yaml
+  name: Text2SpeechBot
+  codename: text2speechbot
+  description: Multi-speaker text-to-speech synthesis using Nari Dia 1.6B model
+  permissions: []
+  memory_tags: []
+  version: 1.0.0
+  capabilities:
+  - text_to_speech
+  - multi_speaker_synthesis
+  - dialogue_rendering
+  - voice_cloning
+- file: ./agents/agent_toni.yaml
+  name: Toni
+  codename: toni
+  description: "Toni handles contracts, NDAs, MSAs, and SOWs. She ensures that InsightPulseAI\u2019\
+    s legal and procurement workflows are efficient and enforceable."
+  permissions: []
+  memory_tags: []
+  version: ''
+  capabilities: []
