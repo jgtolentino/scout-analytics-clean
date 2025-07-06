@@ -25,6 +25,9 @@ class E2BSandboxManager:
         self.vm_id: Optional[str] = None
         self.vm_info: Dict[str, Any] = {}
         
+        # Set team ID for InsightPulseAI
+        self.team_id = os.getenv("E2B_TEAM_ID", "267ebdd5-a572-4d14-92e6-ee1de3ddc9b3")
+        
         # Import plugin dynamically
         try:
             from agents.plugins import e2b_sandbox

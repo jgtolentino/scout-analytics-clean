@@ -26,7 +26,7 @@ class E2BSandbox:
     
     def __init__(self):
         self.api_key = os.getenv("E2B_API_KEY")
-        self.team_id = os.getenv("E2B_TEAM_ID", "insightpulseai")
+        self.team_id = os.getenv("E2B_TEAM_ID", "267ebdd5-a572-4d14-92e6-ee1de3ddc9b3")
         self.active_vms: Dict[str, Dict[str, Any]] = {}
         self.cost_tracker = CostTracker()
         
