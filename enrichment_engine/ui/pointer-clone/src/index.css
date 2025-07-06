@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 font-sans antialiased;
+  }
+
+  /* Arrow pattern background */
+  .arrow-pattern {
+    background-color: #fafaf9;
+    background-image: 
+      url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg opacity='0.15'%3E%3Cpath d='M10 15 L15 10 L15 12 L10 17 L5 12 L5 10 Z' fill='%23374151' /%3E%3C/g%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg opacity='0.1'%3E%3Cpath d='M25 30 L30 25 L30 27 L25 32 L20 27 L20 25 Z' fill='%23374151' /%3E%3C/g%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg opacity='0.12'%3E%3Cpath d='M30 10 L35 15 L30 20 L28 18 L31 15 L28 12 Z' fill='%23374151' /%3E%3C/g%3E%3C/svg%3E");
+    background-size: 40px 40px, 40px 40px, 40px 40px;
+    background-position: 0 0, 20px 20px, 10px 30px;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-100;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400;
+  }
+
+  /* Selection color */
+  ::selection {
+    @apply bg-blue-100 text-gray-900;
+  }
+}
+
+@layer components {
+  .sidebar-icon {
+    @apply w-16 h-16 flex items-center justify-center hover:bg-gray-100 transition-colors duration-200 cursor-pointer relative;
+  }
+
+  .sidebar-icon.active {
+    @apply bg-gray-100;
+  }
+
+  .sidebar-icon.active::before {
+    content: '';
+    @apply absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gray-900 rounded-r;
+  }
+
+  .action-card {
+    @apply w-52 h-28 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer flex flex-col items-center justify-center gap-2 border border-gray-100;
+  }
+
+  .action-card:hover {
+    @apply -translate-y-0.5;
+  }
+
+  .workspace-pill {
+    @apply inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full text-sm;
+  }
+
+  .recent-workspace-card {
+    @apply bg-white rounded-xl border border-gray-200 p-6 shadow-sm;
+  }
+
+  .header-icon-button {
+    @apply w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded-lg transition-colors duration-200 cursor-pointer;
+  }
+
+  .current-badge {
+    @apply ml-auto px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-medium rounded-full uppercase;
+  }
+}

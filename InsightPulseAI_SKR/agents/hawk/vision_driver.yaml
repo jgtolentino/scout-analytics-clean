@@ -1,0 +1,63 @@
+name: VisionDriver
+codename: vision_driver
+description: Pixel-level policy network for Hawk - real-time UI element detection and tracking
+entrypoint: hawk.agents.vision_driver:main
+permissions:
+  - vm:sandboxed-gui
+  - fs:read-only
+  - gpu:inference
+  - e2b:spawn
+memory_tags: 
+  - hawk
+  - vision
+  - control
+  - ui-detection
+
+metadata:
+  version: "1.0.0"
+  author: "InsightPulseAI Team"
+  created: "2025-07-06"
+  category: "automation"
+
+capabilities:
+  - screen_capture: "Capture desktop frames at 30-60 fps"
+  - element_detection: "Detect UI elements using ViT-L + LSTM"
+  - bbox_tracking: "Track element positions across frames"
+  - ocr: "Extract text from UI elements"
+
+config:
+  model:
+    architecture: "vit-large-lstm"
+    checkpoint: "models/hawk_vision_v1.pt"
+    input_size: [224, 224]
+    fps_target: 30
+    
+  runtime:
+    sandbox: "e2b"
+    vm_image: "ubuntu-22-04-browser"
+    wrapper: "microvm_host.spawn_vm"
+  
+  detection:
+    confidence_threshold: 0.85
+    max_elements: 200
+    roles:
+      - button
+      - input
+      - text
+      - link
+      - menu
+      - checkbox
+      - radio
+      - dropdown
+      - image
+      - container
+
+  performance:
+    batch_size: 1
+    use_gpu: true
+    cache_frames: 5
+    
+dependencies:
+  - torch>=2.0.0
+  - transformers>=4.30.0
+  - opencv-python>=4.8.0

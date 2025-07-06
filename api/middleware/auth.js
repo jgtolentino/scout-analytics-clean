@@ -13,7 +13,12 @@ const authenticateToken = (req, res, next) => {
   }
 
   try {
-    const jwtSecret = keyVaultConfig.getJWTSecret();
+    let jwtSecret;
+    try {
+      jwtSecret = keyVaultConfig.getJWTSecret();
+    } catch (error) {
+      jwtSecret = process.env.JWT_SECRET || 'dev-secret-key-change-in-production';
+    }
     const decoded = jwt.verify(token, jwtSecret);
     req.user = decoded;
     next();
@@ -49,7 +54,12 @@ const optionalAuth = (req, res, next) => {
   }
 
   try {
-    const jwtSecret = keyVaultConfig.getJWTSecret();
+    let jwtSecret;
+    try {
+      jwtSecret = keyVaultConfig.getJWTSecret();
+    } catch (error) {
+      jwtSecret = process.env.JWT_SECRET || 'dev-secret-key-change-in-production';
+    }
     const decoded = jwt.verify(token, jwtSecret);
     req.user = decoded;
   } catch (error) {
@@ -60,7 +70,13 @@ const optionalAuth = (req, res, next) => {
 };
 
 const generateToken = (payload) => {
-  const jwtSecret = keyVaultConfig.getJWTSecret();
+  let jwtSecret;
+  try {
+    jwtSecret = keyVaultConfig.getJWTSecret();
+  } catch (error) {
+    // Fallback to environment variable if KeyVault fails
+    jwtSecret = process.env.JWT_SECRET || 'dev-secret-key-change-in-production';
+  }
   const expiresIn = process.env.JWT_EXPIRES_IN || '24h';
   
   return jwt.sign(payload, jwtSecret, { expiresIn });

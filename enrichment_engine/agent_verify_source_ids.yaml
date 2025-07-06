@@ -1,0 +1,11 @@
+agent: gagambi
+codename: source_verifier
+version: 1.0.0
+description: Verify source ID mapping between config and scraped data
+
+tasks:
+  - name: verify_source_ids
+    script: ./verify_source_ids.py
+    params:
+      config: ./agent_gagambi_enrich.yaml
+      insights: ./results/insights.json

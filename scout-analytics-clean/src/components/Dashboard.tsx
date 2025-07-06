@@ -163,20 +163,20 @@ const Dashboard: React.FC<DashboardProps> = ({ apiBaseUrl = 'http://localhost:30
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/40">
       {/* Header */}
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
+      <header className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-50 shadow-sm">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo & Title */}
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
-                  <BarChart3 className="h-5 w-5 text-white" />
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/25">
+                  <BarChart3 className="h-6 w-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-slate-900">Scout Analytics</h1>
-                  <p className="text-xs text-slate-500">FMCG Intelligence Platform</p>
+                  <h1 className="text-xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">Scout Analytics</h1>
+                  <p className="text-xs text-slate-500 font-medium">FMCG Intelligence Platform</p>
                 </div>
               </div>
             </div>
@@ -188,15 +188,15 @@ const Dashboard: React.FC<DashboardProps> = ({ apiBaseUrl = 'http://localhost:30
                 <input
                   type="text"
                   placeholder="Search insights..."
-                  className="pl-10 pr-4 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-64"
+                  className="pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 w-72 bg-white/70 backdrop-blur-sm shadow-sm transition-all duration-200"
                 />
               </div>
               
-              <button className="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100">
+              <button className="p-2.5 text-slate-400 hover:text-slate-600 rounded-xl hover:bg-white/60 transition-all duration-200">
                 <Bell className="h-5 w-5" />
               </button>
               
-              <button className="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100">
+              <button className="p-2.5 text-slate-400 hover:text-slate-600 rounded-xl hover:bg-white/60 transition-all duration-200">
                 <Settings className="h-5 w-5" />
               </button>
 
@@ -216,33 +216,33 @@ const Dashboard: React.FC<DashboardProps> = ({ apiBaseUrl = 'http://localhost:30
         {/* Page Header */}
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h2 className="text-2xl font-bold text-slate-900">Dashboard Overview</h2>
-              <p className="mt-1 text-slate-600">Real-time FMCG performance insights for the Philippines market</p>
+            <div className="space-y-2">
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent">Dashboard Overview</h2>
+              <p className="text-slate-600 font-medium">Real-time FMCG performance insights for the Philippines market 🇵🇭</p>
             </div>
             
-            <div className="mt-4 sm:mt-0 flex items-center space-x-3">
+            <div className="mt-6 sm:mt-0 flex items-center space-x-3">
               {/* Time Period Selector */}
               <div className="relative">
                 <select
                   value={selectedTimeframe}
                   onChange={(e) => setSelectedTimeframe(e.target.value)}
-                  className="appearance-none bg-white border border-slate-300 rounded-lg px-4 py-2 pr-8 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="appearance-none bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl px-4 py-2.5 pr-10 text-sm font-medium focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 shadow-sm transition-all duration-200"
                 >
                   <option value="1d">Last 24 hours</option>
                   <option value="7d">Last 7 days</option>
                   <option value="30d">Last 30 days</option>
                   <option value="90d">Last 90 days</option>
                 </select>
-                <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
+                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
               </div>
 
-              <button className="inline-flex items-center px-4 py-2 border border-slate-300 rounded-lg text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 focus:ring-2 focus:ring-blue-500">
+              <button className="inline-flex items-center px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 bg-white/80 backdrop-blur-sm hover:bg-white hover:shadow-md focus:ring-2 focus:ring-blue-500/20 transition-all duration-200">
                 <Filter className="h-4 w-4 mr-2" />
                 Filters
               </button>
 
-              <button className="inline-flex items-center px-4 py-2 border border-slate-300 rounded-lg text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 focus:ring-2 focus:ring-blue-500">
+              <button className="inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl text-sm font-medium hover:from-blue-700 hover:to-indigo-700 focus:ring-2 focus:ring-blue-500/20 shadow-lg shadow-blue-500/25 transition-all duration-200">
                 <Download className="h-4 w-4 mr-2" />
                 Export
               </button>
@@ -309,73 +309,82 @@ const Dashboard: React.FC<DashboardProps> = ({ apiBaseUrl = 'http://localhost:30
         {/* Charts Section */}
         <div className="space-y-8 mb-8">
           {/* Philippine Regional Performance Map */}
-          <PhilippineRegionMap
-            data={regionData.map(region => ({
-              region: region.region,
-              code: region.region === 'Metro Manila' ? 'NCR' : 
-                    region.region === 'Central Luzon' ? 'III' :
-                    region.region === 'Southern Luzon' ? 'IV-A' :
-                    region.region === 'Visayas' ? 'VII' : 'VI',
-              revenue: region.revenue,
-              transactions: region.transactions,
-              growth: region.growth,
-              cities: [] // Would be populated with actual city data
-            }))}
-            onRegionClick={(region) => {
-              console.log('Selected region:', region);
-              // Handle region selection for detailed view
-            }}
-            selectedRegion={undefined}
-          />
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/60 p-8 shadow-xl shadow-slate-900/5">
+            <div className="mb-6">
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Philippine Regional Performance</h3>
+              <p className="text-slate-600">Geographic distribution of FMCG sales across key regions</p>
+            </div>
+            <PhilippineRegionMap
+              data={regionData.map(region => ({
+                region: region.region,
+                code: region.region === 'Metro Manila' ? 'NCR' : 
+                      region.region === 'Central Luzon' ? 'III' :
+                      region.region === 'Southern Luzon' ? 'IV-A' :
+                      region.region === 'Visayas' ? 'VII' : 'VI',
+                revenue: region.revenue,
+                transactions: region.transactions,
+                growth: region.growth,
+                cities: [] // Would be populated with actual city data
+              }))}
+              onRegionClick={(region) => {
+                console.log('Selected region:', region);
+                // Handle region selection for detailed view
+              }}
+              selectedRegion={undefined}
+            />
+          </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Quick Insights - AI Integration Point */}
-            <div className="bg-white rounded-xl border border-slate-200 p-6">
-              <div className="flex items-center justify-between mb-6">
+            {/* AI Insights - Enhanced Design */}
+            <div className="bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/40 rounded-2xl border border-slate-200/60 p-8 shadow-xl shadow-slate-900/5 backdrop-blur-sm">
+              <div className="flex items-center justify-between mb-8">
                 <div>
-                  <h3 className="text-lg font-semibold text-slate-900">AI Insights</h3>
-                  <p className="text-sm text-slate-600 mt-1">Powered by RetailBot analytics</p>
+                  <h3 className="text-xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">AI Insights</h3>
+                  <p className="text-slate-600 font-medium mt-1">Powered by RetailBot analytics</p>
                 </div>
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                  <span className="text-xs font-medium text-emerald-600">Live</span>
+                </div>
               </div>
 
-              <div className="space-y-4">
-                <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                  <div className="flex items-start space-x-3">
-                    <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <TrendingUp className="h-4 w-4 text-blue-600" />
+              <div className="space-y-5">
+                <div className="p-5 bg-gradient-to-r from-blue-50 to-indigo-50/80 border border-blue-200/60 rounded-xl backdrop-blur-sm">
+                  <div className="flex items-start space-x-4">
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-blue-500/25">
+                      <TrendingUp className="h-5 w-5 text-white" />
                     </div>
                     <div>
-                      <p className="font-medium text-blue-900">Strong Metro Manila Growth</p>
-                      <p className="text-sm text-blue-700 mt-1">
+                      <p className="font-semibold text-blue-900 mb-1">Strong Metro Manila Growth</p>
+                      <p className="text-sm text-blue-700 leading-relaxed">
                         Revenue in Metro Manila increased 15.2% this week, driven by premium FMCG categories.
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
-                  <div className="flex items-start space-x-3">
-                    <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <Eye className="h-4 w-4 text-amber-600" />
+                <div className="p-5 bg-gradient-to-r from-amber-50 to-orange-50/80 border border-amber-200/60 rounded-xl backdrop-blur-sm">
+                  <div className="flex items-start space-x-4">
+                    <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-amber-500/25">
+                      <Eye className="h-5 w-5 text-white" />
                     </div>
                     <div>
-                      <p className="font-medium text-amber-900">Customer Behavior Shift</p>
-                      <p className="text-sm text-amber-700 mt-1">
+                      <p className="font-semibold text-amber-900 mb-1">Customer Behavior Shift</p>
+                      <p className="text-sm text-amber-700 leading-relaxed">
                         Average order value increased 8% as customers prefer bulk purchases.
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-                  <div className="flex items-start space-x-3">
-                    <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <Star className="h-4 w-4 text-green-600" />
+                <div className="p-5 bg-gradient-to-r from-emerald-50 to-green-50/80 border border-emerald-200/60 rounded-xl backdrop-blur-sm">
+                  <div className="flex items-start space-x-4">
+                    <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-green-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-emerald-500/25">
+                      <Star className="h-5 w-5 text-white" />
                     </div>
                     <div>
-                      <p className="font-medium text-green-900">TBWA Brands Outperforming</p>
-                      <p className="text-sm text-green-700 mt-1">
+                      <p className="font-semibold text-emerald-900 mb-1">TBWA Brands Outperforming</p>
+                      <p className="text-sm text-emerald-700 leading-relaxed">
                         TBWA portfolio shows 22% growth vs 8% market average this period.
                       </p>
                     </div>
@@ -387,10 +396,28 @@ const Dashboard: React.FC<DashboardProps> = ({ apiBaseUrl = 'http://localhost:30
         </div>
 
         {/* Footer Status */}
-        <div className="text-center text-sm text-slate-500">
-          Last updated: {format(new Date(), 'MMM d, yyyy • h:mm a')} • 
-          Data source: {authToken ? 'Live Azure SQL' : 'Mock data'} • 
-          AI insights: Active
+        <div className="bg-white/60 backdrop-blur-sm rounded-2xl border border-slate-200/60 p-6 shadow-lg shadow-slate-900/5">
+          <div className="text-center space-y-2">
+            <div className="flex items-center justify-center space-x-4 text-sm text-slate-600">
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                <span>Last updated: {format(new Date(), 'MMM d, yyyy • h:mm a')}</span>
+              </div>
+              <span className="text-slate-400">•</span>
+              <div className="flex items-center space-x-2">
+                <div className={`w-2 h-2 rounded-full ${authToken ? 'bg-blue-500' : 'bg-amber-500'}`} />
+                <span>Data source: {authToken ? 'Express API (Mock)' : 'Mock data'}</span>
+              </div>
+              <span className="text-slate-400">•</span>
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" />
+                <span>AI insights: Active</span>
+              </div>
+            </div>
+            <p className="text-xs text-slate-500 font-medium">
+              Powered by Scout Analytics Platform • Built with ❤️ for TBWA Philippines
+            </p>
+          </div>
         </div>
       </main>
     </div>

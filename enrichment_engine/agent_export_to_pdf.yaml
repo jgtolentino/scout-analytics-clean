@@ -1,0 +1,10 @@
+agent: gagambi
+codename: pdf_exporter
+version: 1.0.0
+description: Automate conversion of enrichment JSON to PDF report
+tasks:
+  - name: export_insights_to_pdf
+    script: ./export_insights_to_pdf.py
+    params:
+      input: ./results/insights.json
+      output: ./results/insights.pdf

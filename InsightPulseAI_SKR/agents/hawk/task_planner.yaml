@@ -1,0 +1,77 @@
+name: TaskPlanner
+codename: task_planner
+description: LLM planner that converts natural language goals into TaskPlan JSON for Hawk execution
+entrypoint: hawk.agents.task_planner:main
+llm_backend: openai:gpt-4o
+memory_tags:
+  - planning
+  - hawk
+  - task-decomposition
+  - ui-automation
+
+metadata:
+  version: "1.0.0"
+  author: "InsightPulseAI Team"
+  created: "2025-07-06"
+  category: "planning"
+
+capabilities:
+  - goal_parsing: "Parse natural language goals into structured intent"
+  - task_decomposition: "Break down complex goals into atomic UI actions"
+  - context_awareness: "Understand application context and workflows"
+  - error_recovery: "Generate alternative action sequences on failure"
+
+config:
+  llm:
+    model: "gpt-4o"
+    temperature: 0.3
+    max_tokens: 2000
+    system_prompt: |
+      You are a task planning agent for the Hawk UI automation system.
+      Your role is to convert natural language goals into precise, executable TaskPlan JSON.
+      
+      Guidelines:
+      1. Break down complex tasks into atomic UI actions (click, type, keypress)
+      2. Identify specific UI elements by their visual characteristics
+      3. Include appropriate delays between actions for UI responsiveness
+      4. Add confidence scores based on action complexity
+      5. Prefer keyboard shortcuts when available for efficiency
+      
+      Output only valid TaskPlan JSON matching the schema.
+
+  planning:
+    max_steps: 50
+    default_delay: 0.5
+    retry_on_failure: true
+    
+  context:
+    track_application_state: true
+    use_workflow_templates: true
+    learn_from_traces: true
+
+templates:
+  - name: "export_document"
+    pattern: "export .* from .*"
+    steps:
+      - action: "click"
+        target: "file_menu"
+      - action: "click" 
+        target: "export_option"
+      - action: "type"
+        keys: "{filename}"
+      - action: "keypress"
+        keys: ["ENTER"]
+        
+  - name: "fill_form"
+    pattern: "fill .* form"
+    steps:
+      - action: "click"
+        target: "first_input_field"
+      - action: "type"
+        keys: "{field_value}"
+      - action: "keypress"
+        keys: ["TAB"]
+
+dependencies:
+  - openai>=1.0.0
+  - pydantic>=2.0.0

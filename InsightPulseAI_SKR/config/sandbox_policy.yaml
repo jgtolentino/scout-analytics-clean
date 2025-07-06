@@ -1,0 +1,168 @@
+# E2B Firecracker Sandbox Policy for Pulser 4.0
+# Enforces microVM isolation for privileged operations
+
+policy:
+  name: "e2b_sandbox_enforcement"
+  version: "1.0.0"
+  description: "Route privileged tasks through E2B Firecracker microVMs"
+  enabled: true
+
+# Match conditions for enforcing sandbox
+match:
+  # Permission-based triggers
+  permissions:
+    any_of:
+      - net:outbound        # Network access
+      - fs:write           # Filesystem writes
+      - process:spawn      # Process execution
+      - gui:control        # UI automation
+      - system:admin       # Administrative actions
+      
+  # Agent-based triggers
+  agents:
+    include:
+      - vision_driver      # UI automation
+      - basher            # Shell commands
+      - hawk              # Desktop automation
+      - web_scraper       # Browser automation
+      
+  # Task-based triggers
+  tasks:
+    patterns:
+      - ".*execute.*"
+      - ".*install.*"
+      - ".*download.*"
+      - ".*browser.*"
+      - ".*click.*"
+
+# Sandbox configuration
+action: enforce_vm
+vm_config:
+  provider: "e2b"
+  
+  # VM profiles by use case
+  profiles:
+    default:
+      image: "ubuntu-22-04-python"
+      ttl_hours: 4
+      gpu: false
+      
+    browser_automation:
+      image: "ubuntu-22-04-browser"
+      ttl_hours: 6
+      gpu: false
+      display: ":99"
+      
+    ml_workloads:
+      image: "ubuntu-22-04-ml"
+      ttl_hours: 8
+      gpu: true
+      
+    windows_automation:
+      image: "windows-11-browser"
+      ttl_hours: 4
+      gpu: false
+      
+  # Resource limits
+  limits:
+    max_concurrent_vms: 8  # Prevent fork bombs
+    max_vm_lifetime_hours: 336  # 14 days max
+    max_hourly_cost: 10.0
+    
+  # Performance optimization
+  optimization:
+    preload_common_images: false  # Avoid $2/day idle cost
+    cache_vm_snapshots: true
+    reuse_idle_vms: true
+    idle_timeout_seconds: 900  # 15 minutes
+
+# Cost controls
+cost_management:
+  tracking:
+    enabled: true
+    granularity: "per_agent"
+    
+  alerts:
+    - threshold: 5.0
+      unit: "dollars_per_hour"
+      action: "notify"
+      
+    - threshold: 10.0
+      unit: "dollars_per_hour"
+      action: "throttle"
+      
+    - threshold: 20.0
+      unit: "dollars_per_hour"
+      action: "suspend"
+      
+  billing:
+    account: "${E2B_TEAM_ID}"
+    budget_cap: 1000.0
+    period: "monthly"
+
+# Fallback configuration
+fallback:
+  enabled: true
+  triggers:
+    - condition: "e2b_api_errors > 3"
+      window: "5m"
+      
+    - condition: "spawn_latency_ms > 5000"
+      count: 2
+      
+  strategies:
+    - name: "local_qemu"
+      backend: "qemu-kvm"
+      priority: 1
+      
+    - name: "docker_isolation"
+      backend: "docker"
+      priority: 2
+      
+    - name: "process_jail"
+      backend: "firejail"
+      priority: 3
+
+# Security requirements
+security:
+  vm_isolation:
+    network: "restricted"    # Egress lockdown applied
+    filesystem: "readonly"   # Read-only root
+    metadata_service: false  # Block cloud metadata
+    
+  egress_allowlist:
+    - "0.0.0.0/0:443"       # HTTPS only
+    - "0.0.0.0/0:80"        # HTTP only
+    - "0.0.0.0/0:53"        # DNS
+    
+  gpu_beta:
+    enabled: false          # Opt-in only via E2B_GPU_BETA_ENABLED
+    allowed_images:
+      - "ubuntu-22-04-ml"
+    
+  scanning:
+    upload_scan: true        # Scan all uploads
+    download_scan: true      # Scan all downloads
+    antivirus: "clamav"
+    
+  audit:
+    log_all_commands: true
+    log_file_operations: true
+    retention_days: 90
+
+# Monitoring and telemetry
+monitoring:
+  metrics:
+    - vm_spawn_latency_ms
+    - vm_lifetime_minutes
+    - commands_per_vm
+    - cost_per_vm
+    - fallback_activations
+    
+  dashboard:
+    enabled: true
+    endpoint: "pulser_monitoring.e2b_sandbox"
+    
+  alerts:
+    slack_webhook: "${SLACK_ALERTS_WEBHOOK}"
+    email: "ops@insightpulseai.com"

@@ -1,0 +1,46 @@
+{
+  "query": "DITO Telecom Philippines market share 2024",
+  "timestamp": "2025-06-28T02:00:00.000000",
+  "sources": [
+    {
+      "title": "DITO Telecom surges with 50% revenue growth in 2024 - Inquirer Business",
+      "url": "https://business.inquirer.net/dito-telecom-revenue-growth",
+      "metrics_found": ["sov", "roi"]
+    },
+    {
+      "title": "Philippine telecom market analysis Q2 2024 - Mordor Intelligence",
+      "url": "https://mordorintelligence.com/ph-telecom-q2-2024",
+      "metrics_found": ["sov", "mentions"]
+    },
+    {
+      "title": "DITO social media engagement outperforms competitors - Social Media Today",
+      "url": "https://socialmediatoday.com/dito-engagement-metrics",
+      "metrics_found": ["engagement_rate"]
+    },
+    {
+      "title": "Brand sentiment analysis: Philippine telecoms June 2024 - YouGov",
+      "url": "https://yougov.com/ph-telecom-sentiment",
+      "metrics_found": ["sentiment"]
+    },
+    {
+      "title": "DITO Independence Day campaign reaches 15K mentions - Rappler Tech",
+      "url": "https://rappler.com/dito-independence-campaign",
+      "metrics_found": ["mentions", "hashtags"]
+    }
+  ],
+  "metrics": {
+    "sov": "21.7%",
+    "mentions": "15,423",
+    "engagement_rate": "116.95%",
+    "sentiment": "86.7%",
+    "roi": "6.6%",
+    "hashtags": ["#DITOPinasWins", "#BagongTelco", "#DITOIndependence"]
+  },
+  "insights": [
+    "DITO's Share of Voice increased to 21.7%, up 7% from previous quarter",
+    "Social mentions reached 15,423, representing 45% growth month-over-month",
+    "Engagement rate of 116.95% exceeds telecom industry average by 41.8x",
+    "Positive sentiment at 86.7% outperforms Globe (72%) and Smart (68%)",
+    "ROI of 6.6% surpasses industry benchmark of 3.8% by 74%"
+  ]
+}

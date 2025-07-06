@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: gagambi-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile.render
+    dockerCommand: ./start-render.sh
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: 3308
+      - key: DB_USER
+        value: TBWA
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_NAME
+        value: gagambi_db
+      - key: ENVIRONMENT
+        value: production
+      - key: BACKEND_CORS_ORIGINS
+        value: '["https://gagambi.vercel.app", "https://gagambi.com"]'
+    healthCheckPath: /health
+    autoDeploy: true

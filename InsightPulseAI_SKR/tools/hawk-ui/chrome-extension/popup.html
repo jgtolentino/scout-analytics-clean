@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hawk Recorder</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                🦅 <span>Hawk Recorder</span>
+            </div>
+            <div class="status" id="status">
+                <span class="status-indicator" id="statusIndicator"></span>
+                <span id="statusText">Ready</span>
+            </div>
+        </header>
+
+        <main class="main">
+            <!-- Recording Controls -->
+            <section class="controls">
+                <button id="startBtn" class="btn btn-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <circle cx="12" cy="12" r="10"/>
+                    </svg>
+                    Start Recording
+                </button>
+                <button id="stopBtn" class="btn btn-secondary" disabled>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <rect x="6" y="6" width="12" height="12"/>
+                    </svg>
+                    Stop Recording
+                </button>
+                <button id="pauseBtn" class="btn btn-outline" disabled>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <rect x="6" y="4" width="4" height="16"/>
+                        <rect x="14" y="4" width="4" height="16"/>
+                    </svg>
+                    Pause
+                </button>
+            </section>
+
+            <!-- Recording Info -->
+            <section class="info">
+                <div class="info-item">
+                    <label>Actions Recorded:</label>
+                    <span id="actionCount">0</span>
+                </div>
+                <div class="info-item">
+                    <label>Duration:</label>
+                    <span id="duration">00:00</span>
+                </div>
+                <div class="info-item">
+                    <label>Task Name:</label>
+                    <input type="text" id="taskName" placeholder="Enter task name..." />
+                </div>
+            </section>
+
+            <!-- Recorded Actions -->
+            <section class="actions">
+                <h3>Recorded Actions</h3>
+                <div id="actionsList" class="actions-list">
+                    <div class="empty-state">
+                        <p>No actions recorded yet</p>
+                        <p class="hint">Click "Start Recording" and interact with the page</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Export Options -->
+            <section class="export">
+                <h3>Export Options</h3>
+                <div class="export-buttons">
+                    <button id="exportJsonBtn" class="btn btn-outline" disabled>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14,2 14,8 20,8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10,9 9,9 8,9"/>
+                        </svg>
+                        Export JSON
+                    </button>
+                    <button id="exportPythonBtn" class="btn btn-outline" disabled>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="16 18 22 12 16 6"/>
+                            <polyline points="8 6 2 12 8 18"/>
+                        </svg>
+                        Export Python
+                    </button>
+                    <button id="sendToBuilderBtn" class="btn btn-primary" disabled>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"/>
+                            <polygon points="22,2 15,22 11,13 2,9 22,2"/>
+                        </svg>
+                        Send to Builder
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="settings">
+                <button id="settingsBtn" class="btn-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="m12 1 1.27 3.18a1 1 0 0 0 .94.69h3.34a1 1 0 0 0 .83-.43l2-2.86a1 1 0 0 1 1.62 0l2 2.86a1 1 0 0 0 .83.43h3.34a1 1 0 0 0 .94-.69L23 1a1 1 0 0 1 1.84.74l-1.27 3.18a1 1 0 0 0 .23 1.09l2.36 2.36a1 1 0 0 1 0 1.42l-2.36 2.36a1 1 0 0 0-.23 1.09L25 15.26a1 1 0 0 1-1.84.74l-1.27-3.18a1 1 0 0 0-.94-.69h-3.34a1 1 0 0 0-.83.43l-2 2.86a1 1 0 0 1-1.62 0l-2-2.86a1 1 0 0 0-.83-.43H7a1 1 0 0 0-.94.69L4.79 16a1 1 0 0 1-1.84-.74l1.27-3.18a1 1 0 0 0-.23-1.09L1.63 8.63a1 1 0 0 1 0-1.42l2.36-2.36a1 1 0 0 0 .23-1.09L3 1a1 1 0 0 1 1.84-.74Z"/>
+                    </svg>
+                </button>
+                <span class="version">v1.0.0</span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

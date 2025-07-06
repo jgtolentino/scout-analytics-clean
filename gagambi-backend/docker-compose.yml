@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  # FastAPI Backend
+  gagambi-api:
+    build: .
+    container_name: gagambi-api
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=mysql://TBWA:R@nd0mPA$$2025!@mysql-gagambi:3306/gagambi_db
+      - SECRET_KEY=your-secret-key-here-change-in-production
+      - ENVIRONMENT=development
+    depends_on:
+      mysql-gagambi:
+        condition: service_healthy
+    volumes:
+      - ./app:/app/app
+    networks:
+      - gagambi-network
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  # MySQL Database (if not using the existing one)
+  mysql-gagambi:
+    image: mysql:8.0
+    container_name: mysql-gagambi-compose
+    environment:
+      - MYSQL_ROOT_PASSWORD=R@nd0mPA$$2025!
+      - MYSQL_DATABASE=gagambi_db
+      - MYSQL_USER=TBWA
+      - MYSQL_PASSWORD=R@nd0mPA$$2025!
+    ports:
+      - "3309:3306"
+    volumes:
+      - gagambi-mysql-data:/var/lib/mysql
+    networks:
+      - gagambi-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  gagambi-mysql-data:
+
+networks:
+  gagambi-network:
+    driver: bridge

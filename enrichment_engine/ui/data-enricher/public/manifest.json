@@ -1,0 +1,58 @@
+{
+  "short_name": "Data Enricher",
+  "name": "Data Enricher - Campaign Intelligence Pipeline",
+  "description": "Professional web interface for marketing campaign enrichment with open-source intelligence gathering",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#6366f1",
+  "background_color": "#ffffff",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-US",
+  "categories": ["productivity", "business"],
+  "shortcuts": [
+    {
+      "name": "New Enrichment",
+      "short_name": "New",
+      "description": "Start a new enrichment workflow",
+      "url": "/?action=new",
+      "icons": [{ "src": "icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Recent Results",
+      "short_name": "Results",
+      "description": "View recent enrichment results",
+      "url": "/?action=results",
+      "icons": [{ "src": "icon-96.png", "sizes": "96x96" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshot-1.png",
+      "type": "image/png",
+      "sizes": "1280x720",
+      "label": "Data Input Step"
+    },
+    {
+      "src": "screenshot-2.png",
+      "type": "image/png",
+      "sizes": "1280x720",
+      "label": "Processing View"
+    }
+  ],
+  "prefer_related_applications": false
+}

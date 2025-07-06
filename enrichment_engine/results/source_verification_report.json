@@ -1,0 +1,10 @@
+{
+  "expected_count": 2,
+  "actual_count": 0,
+  "matches": [],
+  "missing": [
+    "./raw/campaign_metrics.pdf",
+    "./benchmarks.yaml"
+  ],
+  "extra": []
+}
