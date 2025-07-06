@@ -1,0 +1,78 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pulser-hawk"
+version = "1.0.0"
+description = "Real-time vision-language computer autopilot for Pulser 4.0 SDK"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "InsightPulseAI Team", email = "team@insightpulseai.com"}
+]
+keywords = ["automation", "computer-vision", "desktop-automation", "pulser", "sdk"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Image Recognition",
+]
+
+dependencies = [
+    "numpy>=1.24.0",
+    "opencv-python>=4.8.0",
+    "pillow>=10.0.0",
+    "pyautogui>=0.9.54",
+    "pydantic>=2.0.0",
+    "torch>=2.0.0",
+    "torchvision>=0.15.0",
+    "transformers>=4.30.0",
+    "mss>=9.0.0",
+    "aiofiles>=23.0.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.0.0",
+    "mypy>=1.5.0",
+    "ruff>=0.1.0",
+]
+e2b = [
+    "e2b>=0.1.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/insightpulseai/hawk-sdk"
+"Bug Tracker" = "https://github.com/insightpulseai/hawk-sdk/issues"
+"Documentation" = "https://hawk.insightpulseai.com"
+
+[tool.setuptools]
+packages = ["hawk"]
+
+[tool.setuptools.package-data]
+hawk = ["schemas/*.json", "agents/*.yaml"]
+
+[tool.black]
+line-length = 100
+target-version = ['py39']
+
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "I", "N", "W"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true

@@ -1,0 +1,52 @@
+# Pulser Integrity Manifest
+# Generated: ${TIMESTAMP}
+# Purpose: Track integrity of external dependencies and prompt sources
+
+dependencies:
+  leaked_prompts:
+    source: "https://github.com/jujumilk3/leaked-system-prompts.git"
+    commit: "${LEAKED_PROMPTS_COMMIT}"
+    sha256: "${LEAKED_PROMPTS_SHA256}"
+    files_count: ${LEAKED_PROMPTS_FILES}
+    
+  system_prompts_leaks:
+    source: "https://github.com/asgeirtj/system_prompts_leaks.git"
+    commit: "${SYSTEM_PROMPTS_COMMIT}"
+    sha256: "${SYSTEM_PROMPTS_SHA256}"
+    files_count: ${SYSTEM_PROMPTS_FILES}
+    
+  openmanus:
+    source: "https://github.com/FoundationAgents/OpenManus.git"
+    commit: "${OPENMANUS_COMMIT}"
+    sha256: "${OPENMANUS_SHA256}"
+    license: "MIT"
+    
+security_checks:
+  prompt_filtering:
+    total_prompts: ${TOTAL_PROMPTS}
+    filtered_pii: ${FILTERED_PII}
+    filtered_credentials: ${FILTERED_CREDENTIALS}
+    filtered_offensive: ${FILTERED_OFFENSIVE}
+    
+  code_scanning:
+    vulnerabilities_found: 0
+    last_scan: "${LAST_SCAN_TIME}"
+    scanner: "CodeQL"
+    
+verification:
+  command: |
+    # Verify this manifest
+    sha256sum -c pulser_integrity.manifest.sha256
+    
+  prompt_vault_hash: "${PROMPT_VAULT_SHA256}"
+  
+audit_trail:
+  created_by: "${USER}"
+  created_at: "${TIMESTAMP}"
+  approved_by: ""
+  approval_date: ""
+  
+notes:
+  - "All external dependencies are pinned to specific commits"
+  - "Prompt sources have been filtered for sensitive content"
+  - "SHA-256 hashes ensure dependency integrity"
