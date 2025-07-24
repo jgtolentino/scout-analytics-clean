@@ -1,0 +1,72 @@
+name: Publish Python Package to PyPI
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Package version to publish'
+        required: true
+        default: '4.0.0'
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: python
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build twine
+        pip install -r requirements.txt
+    
+    - name: Run tests
+      run: |
+        pip install pytest pytest-cov pytest-asyncio
+        pytest tests/ --cov=pulser_sdk --cov-report=html
+    
+    - name: Build package
+      run: python -m build
+    
+    - name: Check package
+      run: twine check dist/*
+    
+    - name: Publish to Test PyPI
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
+      run: |
+        twine upload --repository testpypi dist/*
+    
+    - name: Test installation from Test PyPI
+      run: |
+        pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ pulser-sdk
+        python -c "import pulser_sdk; print(pulser_sdk.__version__)"
+    
+    - name: Publish to PyPI
+      if: github.event_name == 'release' || github.event.inputs.version != ''
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+      run: |
+        twine upload dist/*
+    
+    - name: Create GitHub Release Assets
+      if: github.event_name == 'release'
+      run: |
+        for file in dist/*; do
+          gh release upload ${{ github.event.release.tag_name }} "$file"
+        done
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

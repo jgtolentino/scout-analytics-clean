@@ -1,0 +1,101 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pulser-sdk"
+version = "4.0.0"
+description = "Enterprise AI Agent Orchestration Platform for Creative Intelligence"
+readme = "README.md"
+authors = [
+    {name = "TBWA Data Collective", email = "tech@tbwa.com"}
+]
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "pyyaml>=6.0",
+    "aiohttp>=3.8",
+    "pydantic>=2.0",
+    "click>=8.0",
+    "rich>=13.0",
+    "python-dotenv>=1.0",
+    "httpx>=0.24",
+    "tenacity>=8.0",
+    "prometheus-client>=0.16",
+    "opentelemetry-api>=1.15",
+    "opentelemetry-sdk>=1.15",
+]
+requires-python = ">=3.8"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "pytest-asyncio>=0.20",
+    "black>=22.0",
+    "ruff>=0.1",
+    "mypy>=1.0",
+    "sphinx>=5.0",
+    "sphinx-rtd-theme>=1.2",
+]
+ml = [
+    "transformers>=4.30",
+    "torch>=2.0",
+    "scikit-learn>=1.0",
+    "numpy>=1.24",
+    "pandas>=2.0",
+]
+cloud = [
+    "azure-storage-blob>=12.0",
+    "google-cloud-storage>=2.0",
+    "boto3>=1.26",
+]
+all = ["pulser-sdk[dev,ml,cloud]"]
+
+[project.urls]
+Homepage = "https://github.com/jgtolentino/pulser-sdk"
+Documentation = "https://pulser-sdk.readthedocs.io"
+Repository = "https://github.com/jgtolentino/pulser-sdk"
+"Bug Tracker" = "https://github.com/jgtolentino/pulser-sdk/issues"
+
+[project.scripts]
+pulser = "pulser_sdk.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+pulser_sdk = ["templates/*.yaml", "configs/*.json"]
+
+[tool.black]
+line-length = 100
+target-version = ['py38', 'py39', 'py310', 'py311']
+
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "I", "N", "W"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+addopts = "-v --cov=pulser_sdk --cov-report=html --cov-report=term-missing"
+asyncio_mode = "auto"

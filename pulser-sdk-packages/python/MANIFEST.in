@@ -1,0 +1,9 @@
+include README.md
+include LICENSE
+include requirements.txt
+include pyproject.toml
+recursive-include src/pulser_sdk/templates *.yaml *.yml
+recursive-include src/pulser_sdk/configs *.json *.yaml
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude tests *
