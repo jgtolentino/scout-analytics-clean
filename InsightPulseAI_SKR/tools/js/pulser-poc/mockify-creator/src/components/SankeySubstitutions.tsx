@@ -24,9 +24,12 @@ export const SankeySubstitutions: React.FC<SankeySubstitutionsProps> = ({
 }) => {
   // Transform data for Nivo Sankey format
   const sankeyData = React.useMemo(() => {
+    // Filter out circular links (brand to itself)
+    const filteredData = data.filter(item => item.source_brand !== item.target_brand);
+    
     // Get unique brands
     const nodes = new Set<string>();
-    data.forEach(item => {
+    filteredData.forEach(item => {
       nodes.add(item.source_brand);
       nodes.add(item.target_brand);
     });
@@ -35,7 +38,7 @@ export const SankeySubstitutions: React.FC<SankeySubstitutionsProps> = ({
     const nodeArray = Array.from(nodes).map(id => ({ id }));
     
     // Create links array
-    const links = data.map(item => ({
+    const links = filteredData.map(item => ({
       source: item.source_brand,
       target: item.target_brand,
       value: item.total_value,
