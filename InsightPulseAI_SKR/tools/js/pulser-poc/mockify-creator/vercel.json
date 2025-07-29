@@ -5,9 +5,9 @@
   "installCommand": "npm install",
   "regions": ["sin1"],
   "env": {
-    "NEXT_PUBLIC_SUPABASE_URL": "@supabase_url",
-    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@supabase_anon_key",
-    "SUPABASE_SERVICE_ROLE_KEY": "@supabase_service_role_key"
+    "NEXT_PUBLIC_SUPABASE_URL": "https://cxzllzyxwpyptfretryc.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN4emxsenlyd3B5cHRmcmV0cnljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI1NTI5NTcsImV4cCI6MjA0ODEyODk1N30.Y-F8Jx-wKo4ZoNnFa8JuqTR2dJPww0WX6p-FgD4RJLo",
+    "SUPABASE_SERVICE_ROLE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN4emxsenlyd3B5cHRmcmV0cnljIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTczMjU1Mjk1NywiZXhwIjoyMDQ4MTI4OTU3fQ.FEw3GRKdOa0B6P7-X_J6pERw1OJfmQtoJtuHNcUkRgI"
   },
   "headers": [
     {
@@ -16,5 +16,12 @@
         { "key": "Cache-Control", "value": "s-maxage=3600, stale-while-revalidate" }
       ]
     }
-  ]
+  ],
+  "build": {
+    "env": {
+      "NEXT_PUBLIC_SUPABASE_URL": "https://cxzllzyxwpyptfretryc.supabase.co",
+      "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN4emxsenlyd3B5cHRmcmV0cnljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI1NTI5NTcsImV4cCI6MjA0ODEyODk1N30.Y-F8Jx-wKo4ZoNnFa8JuqTR2dJPww0WX6p-FgD4RJLo",
+      "SUPABASE_SERVICE_ROLE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN4emxsenlyd3B5cHRmcmV0cnljIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTczMjU1Mjk1NywiZXhwIjoyMDQ4MTI4OTU3fQ.FEw3GRKdOa0B6P7-X_J6pERw1OJfmQtoJtuHNcUkRgI"
+    }
+  }
 }
