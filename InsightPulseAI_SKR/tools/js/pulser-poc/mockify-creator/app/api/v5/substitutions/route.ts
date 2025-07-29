@@ -88,15 +88,17 @@ export async function GET(request: NextRequest) {
       data = mockData;
     }
     
-    // Transform data for Sankey format if needed
-    const sankeyData = data?.map(item => ({
-      source: item.source_brand,
-      target: item.target_brand,
-      value: item.total_value,
-      count: item.substitution_count,
-      rate: item.substitution_rate_pct,
-      data_quality_score: item.data_quality_score,
-      data_coverage_pct: item.data_coverage_pct
+    // Transform data for Sankey format and filter out circular references
+    const sankeyData = data?.filter(item => 
+      item.source_brand !== item.target_brand
+    ).map(item => ({
+      source_brand: item.source_brand,
+      target_brand: item.target_brand,
+      total_value: item.total_value,
+      substitution_count: item.substitution_count,
+      substitution_rate_pct: item.substitution_rate_pct,
+      data_quality_score: item.data_quality_score || 1.0,
+      data_coverage_pct: item.data_coverage_pct || 1.0
     }));
     
     return NextResponse.json({
