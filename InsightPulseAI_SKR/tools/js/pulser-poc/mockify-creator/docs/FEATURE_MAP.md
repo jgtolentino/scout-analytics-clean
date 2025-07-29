@@ -1,6 +1,6 @@
 # 🗺️ Scout v5 Feature-Coverage Matrix
 
-*(last refresh 2025-07-29)*
+*(last refresh 2025-07-29 • updated implementation status)*
 
 | #                    | PRD Feature                                         | UI Location <br>(page → zone)                          | Front-end Component                         | DB / API Source                                                  | Status                            |
 | -------------------- | --------------------------------------------------- | ------------------------------------------------------ | ------------------------------------------- | ---------------------------------------------------------------- | --------------------------------- |
@@ -11,9 +11,9 @@
 | 3                    | Heat-map – Hour-of-day traffic                      | Store Analytics → *\[slot B]*                          | **stub** `HeatmapHour.tsx`                  | `silver.transactions`                                            | ⏳ Planned (Sprint 02)             |
 | **Product Mix Tab**  |                                                     |                                                        |                                             |                                                                  |                                   |
 | 4                    | Top Products bar chart                              | Store Analytics → Top Products                         | `BarTopProducts.tsx`                        | `gold.top_products_view`                                         | ✅ Done                            |
-| 5                    | **Substitution flows Sankey**                       | Dashboard → AI grid <br>**&** Store Analytics → slot C | `SankeySubstitutions.tsx`                   | `gold.substitution_summary` • `/api/v5/substitutions`            | 🔄 **In progress** (BE-01, FE-04) |
+| 5                    | **Substitution flows Sankey**                       | Dashboard → AI grid <br>**&** Store Analytics → slot C | `SankeySubstitutions.tsx`                   | `gold.substitution_summary` • `/api/v5/substitutions`            | ✅ Done                            |
 | **Behavior Tab**     |                                                     |                                                        |                                             |                                                                  |                                   |
-| 6                    | Request-mode donut (Verbal / Point / Indirect)      | Brand Monitoring → Sentiment ↔ toggle                  | `DonutSentiment.tsx` (variant)              | adds `request_mode_enum` in `silver.transactions`                | 🔄 In progress (BE-02, FE-05)     |
+| 6                    | Request-mode donut (Verbal / Point / Indirect)      | Brand Monitoring → Sentiment ↔ toggle                  | `DonutRequestMode.tsx`                      | adds `request_mode_enum` in `silver.transactions`                | ✅ Done                            |
 | 7                    | Suggestion acceptance rate gauge                    | Brand Monitoring → KPI chip                            | `GaugeAcceptance.tsx`                       | `gold.behavior_metrics_view`                                     | ❌ Not started                     |
 | **Profile Tab**      |                                                     |                                                        |                                             |                                                                  |                                   |
 | 8                    | Demographic pie (Gender)                            | Consumer Profile → chart 1                             | `PieGender.tsx`                             | `gold.demographics_view`                                         | ✅ Done                            |
@@ -27,25 +27,34 @@
 | 14                   | Real / Mock toggle                                  | Header RHS                                             | `RealSimToggle.tsx`                         | `filter_store.realSim` ctx                                       | ✅ Done                            |
 | **Data Ops / Infra** |                                                     |                                                        |                                             |                                                                  |                                   |
 | 15                   | Medallion ETL daily cron                            | —                                                      | Supabase pg\_cron jobs                      | functions `process_bronze_to_silver`, `aggregate_silver_to_gold` | ✅ Live                            |
-| 16                   | RLS on Gold schema                                  | —                                                      | SQL migration `rls_gold.sql`                | Supabase policies                                                | 🔄 Waiting for DBA approval       |
+| 16                   | RLS on Gold schema                                  | —                                                      | SQL migration `20250129_rls_gold.sql`       | Supabase policies                                                | ✅ Done (ready for deployment)     |
 | **Observability**    |                                                     |                                                        |                                             |                                                                  |                                   |
-| 17                   | Data-quality badge (Q score)                        | Every chart header                                     | `DataBadge.tsx`                             | fields `data_quality_score`, `data_coverage_pct`                 | ⏳ Planned (FE-06)                 |
+| 17                   | Data-quality badge (Q score)                        | Every chart header                                     | `DataBadge.tsx`                             | fields `data_quality_score`, `data_coverage_pct`                 | ✅ Done                            |
 
 Legend  ✅ complete 🔄 in-progress ⏳ planned ❌ not-started
 
 ---
 
-## 📌 Immediate next moves
+## 📌 Completed Implementation
 
-| Ticket                                              | Owner     | Dependency    | ETA       |
-| --------------------------------------------------- | --------- | ------------- | --------- |
-| **BE-01** `gold.substitution_summary` view + RLS    | DB team   | view SQL      | **T-2 d** |
-| **FE-04** `SankeySubstitutions.tsx` + Storybook     | Front-end | BE-01         | T-4 d     |
-| **BE-02** add `request_mode_enum`, ETL pass-through | DB team   | migration     | T-3 d     |
-| **FE-05** donut toggle variant                      | Front-end | BE-02         | T-5 d     |
-| **rls\_gold.sql** merge request                     | DBA       | policy review | T-1 d     |
+| Ticket                                              | Status    | Implementation                                       |
+| --------------------------------------------------- | --------- | ---------------------------------------------------- |
+| **BE-01** `gold.substitution_summary` view + RLS    | ✅ Done    | `20250129_substitution_summary_view.sql`             |
+| **FE-04** `SankeySubstitutions.tsx` + Storybook     | ✅ Done    | Component with tests and stories                     |
+| **BE-02** add `request_mode_enum`, ETL pass-through | ✅ Done    | `20250129_add_request_mode_enum.sql`                 |
+| **FE-05** donut toggle variant                      | ✅ Done    | `DonutRequestMode.tsx` with tests                    |
+| **rls\_gold.sql** merge request                     | ✅ Done    | `20250129_rls_gold.sql` ready for deployment         |
 
-Merge those five items and **PRD coverage hits 100 %**.
+**Implementation complete!** The only remaining items are:
+- 3 features planned for future sprints (hour heatmap, geo map, acceptance gauge)
+
+## 📌 Next Sprint Targets
+
+| Feature                         | Priority | Estimated Effort |
+| ------------------------------- | -------- | ---------------- |
+| Hour-of-day heat-map            | High     | 2 dev-days       |
+| Barangay geo heat-map           | Medium   | 3-4 dev-days     |
+| Suggestion-acceptance gauge     | Low      | 1-1.5 dev-days   |
 
 Feel free to ask for:
 
