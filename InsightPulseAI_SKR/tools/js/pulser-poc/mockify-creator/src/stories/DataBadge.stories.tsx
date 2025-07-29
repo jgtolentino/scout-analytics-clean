@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { DataBadge, DataBadgeWrapper } from './DataBadge';
+import { DataBadge, DataBadgeWrapper } from '../components/DataBadge';
 
 const meta = {
   title: 'Components/DataBadge',

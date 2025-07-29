@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { DonutRequestMode } from './DonutRequestMode';
+import { DonutRequestMode } from '../components/DonutRequestMode';
 
 const meta = {
   title: 'Charts/DonutRequestMode',

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { SankeySubstitutions } from './SankeySubstitutions';
+import { SankeySubstitutions } from '../components/SankeySubstitutions';
 
 const meta = {
   title: 'Charts/SankeySubstitutions',

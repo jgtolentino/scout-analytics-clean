@@ -99,14 +99,16 @@ export const SankeySubstitutions: React.FC<SankeySubstitutionsProps> = ({
             from: 'color',
             modifiers: [['darker', 1]]
           }}
-          tooltip={({ link }: any) => (
+          nodeTooltip={({ node }: any) => (
+            <div className="bg-white px-3 py-2 shadow-lg rounded-md border border-gray-200">
+              <div className="font-semibold text-sm">{node.id}</div>
+            </div>
+          )}
+          linkTooltip={({ link }: any) => (
             <div className="bg-white px-3 py-2 shadow-lg rounded-md border border-gray-200">
               <div className="font-semibold text-sm">{link.source.id} → {link.target.id}</div>
               <div className="text-xs text-gray-600">
-                Value: ₱{link.value.toLocaleString()}
-              </div>
-              <div className="text-xs text-gray-600">
-                Count: {link.count} substitutions
+                Value: ₱{link.formattedValue}
               </div>
             </div>
           )}
