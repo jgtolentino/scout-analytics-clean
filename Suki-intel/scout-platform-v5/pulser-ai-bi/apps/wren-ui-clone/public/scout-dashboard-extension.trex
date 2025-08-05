@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest manifest-version="0.1" xmlns="http://www.tableau.com/xml/extension_manifest">
+  <dashboard-extension id="com.scout.dashboard" extension-version="1.0.0">
+    <default-locale>en_US</default-locale>
+    <name resource-id="name"/>
+    <description resource-id="description"/>
+    <author name="Scout Platform" email="support@scout-platform.dev" organization="TBWA" website="https://scout-platform.dev"/>
+    <min-api-version>1.0</min-api-version>
+    <source-location>
+      <url>http://localhost:3000/tableau-extension</url>
+    </source-location>
+    <icon>
+      <small>http://localhost:3000/favicon.ico</small>
+      <medium>http://localhost:3000/favicon.ico</medium>
+    </icon>
+    <permissions>
+      <permission>full data</permission>
+    </permissions>
+    <context-menu>
+      <configure-context-menu-item />
+    </context-menu>
+  </dashboard-extension>
+  <resources>
+    <resource id="name">
+      <text locale="en_US">Scout Analytics Dashboard</text>
+    </resource>
+    <resource id="description">
+      <text locale="en_US">AI-powered business intelligence dashboard with data storytelling features including Focus/Explore modes and AI-generated chart explanations</text>
+    </resource>
+  </resources>
+</manifest>

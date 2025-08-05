@@ -1,0 +1,120 @@
+/**
+ * Story Mode CSS Styles
+ * Handles transitions and visibility for Focus/Explore modes
+ */
+
+/* Focus Mode Styles */
+[data-story-mode="focus"] .story-hide-in-focus {
+  display: none !important;
+}
+
+[data-story-mode="focus"] .story-dim-in-focus {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+[data-story-mode="focus"] .story-emphasize-in-focus {
+  transform: scale(1.02);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(147, 51, 234, 0.2); /* Purple border */
+}
+
+/* Explore Mode Styles */
+[data-story-mode="explore"] .story-hide-in-explore {
+  display: none !important;
+}
+
+[data-story-mode="explore"] .story-compact-in-explore {
+  max-height: 200px;
+  overflow: hidden;
+}
+
+/* Smooth transitions */
+.story-mode-transition {
+  transition: all 0.3s ease-in-out;
+}
+
+/* AI Explain Button animations */
+.explain-chart-btn {
+  transition: all 0.2s ease;
+}
+
+[data-story-mode="focus"] .explain-chart-btn {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Story Mode Toggle specific styles */
+.story-mode-toggle-container {
+  transition: all 0.3s ease;
+}
+
+/* Chart container adjustments for story mode */
+[data-story-mode="focus"] .chart-container {
+  margin: 0.5rem 0;
+}
+
+[data-story-mode="explore"] .chart-container {
+  margin: 0;
+}
+
+/* Insight cards styling */
+.insight-card {
+  transition: all 0.3s ease;
+}
+
+[data-story-mode="focus"] .insight-card {
+  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+  border-color: rgb(147 51 234 / 0.3);
+}
+
+/* AI Explanation overlay adjustments */
+[data-story-mode="focus"] .ai-explanation-overlay {
+  max-width: 90%;
+  font-size: 1.1em;
+}
+
+/* Dashboard grid adjustments */
+[data-story-mode="focus"] .dashboard-grid {
+  gap: 2rem;
+}
+
+[data-story-mode="explore"] .dashboard-grid {
+  gap: 1rem;
+}
+
+/* Hide complex controls in focus mode */
+[data-story-mode="focus"] .advanced-controls,
+[data-story-mode="focus"] .detailed-filters,
+[data-story-mode="focus"] .raw-data-table {
+  display: none;
+}
+
+/* Emphasize key metrics in focus mode */
+[data-story-mode="focus"] .key-metric {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: rgb(88 28 135); /* Purple-900 */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  [data-story-mode="focus"] .story-emphasize-in-focus {
+    transform: scale(1);
+  }
+  
+  .story-mode-toggle-container {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 1000;
+  }
+}

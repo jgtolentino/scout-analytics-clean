@@ -1,0 +1,264 @@
+# Chart Type Suggestion Matrix for Scout Dashboard
+# Maps data patterns and insights to optimal visualization types
+
+chart_selection_rules:
+  # Single Metric Insights
+  single_metric:
+    - pattern: "current_value_with_target"
+      charts: ["kpi_card", "gauge_chart", "bullet_chart"]
+      priority: ["gauge_chart", "kpi_card", "bullet_chart"]
+      example: "Current revenue vs target"
+    
+    - pattern: "single_value_with_trend"
+      charts: ["kpi_card_sparkline", "number_with_trendline"]
+      priority: ["kpi_card_sparkline"]
+      example: "Total sales with 30-day trend"
+    
+    - pattern: "percentage_completion"
+      charts: ["gauge_chart", "progress_bar", "donut_chart"]
+      priority: ["gauge_chart", "progress_bar"]
+      example: "Quarterly target achievement"
+
+  # Comparison Insights
+  comparison:
+    - pattern: "category_comparison"
+      charts: ["bar_chart", "column_chart", "radar_chart"]
+      priority: ["bar_chart", "column_chart"]
+      conditions:
+        categories_count: "> 5 use horizontal_bar"
+        show_multiple_metrics: "use grouped_bar"
+      example: "Sales by product category"
+    
+    - pattern: "part_to_whole"
+      charts: ["pie_chart", "donut_chart", "treemap", "sunburst"]
+      priority: ["donut_chart", "treemap"]
+      conditions:
+        categories_count: "> 7 avoid pie/donut"
+        hierarchical_data: "use treemap or sunburst"
+      example: "Market share by region"
+    
+    - pattern: "ranking_comparison"
+      charts: ["horizontal_bar", "lollipop_chart", "slope_chart"]
+      priority: ["horizontal_bar", "lollipop_chart"]
+      example: "Top 10 performing stores"
+
+  # Time Series Insights
+  time_series:
+    - pattern: "single_trend_over_time"
+      charts: ["line_chart", "area_chart", "sparkline"]
+      priority: ["line_chart", "area_chart"]
+      conditions:
+        emphasize_volume: "use area_chart"
+        compact_space: "use sparkline"
+      example: "Revenue trend over 12 months"
+    
+    - pattern: "multiple_trends_comparison"
+      charts: ["multi_line_chart", "small_multiples", "horizon_chart"]
+      priority: ["multi_line_chart", "small_multiples"]
+      conditions:
+        series_count: "> 7 use small_multiples"
+        dense_data: "consider horizon_chart"
+      example: "Revenue by region over time"
+    
+    - pattern: "cyclical_patterns"
+      charts: ["heatmap", "calendar_heatmap", "radar_chart"]
+      priority: ["heatmap", "calendar_heatmap"]
+      example: "Sales by hour and day of week"
+    
+    - pattern: "trend_with_forecast"
+      charts: ["line_with_forecast", "area_with_confidence", "fan_chart"]
+      priority: ["area_with_confidence", "line_with_forecast"]
+      example: "Revenue forecast next 30 days"
+
+  # Distribution Insights
+  distribution:
+    - pattern: "value_distribution"
+      charts: ["histogram", "box_plot", "violin_plot", "density_plot"]
+      priority: ["box_plot", "histogram"]
+      conditions:
+        show_outliers: "use box_plot"
+        continuous_data: "use density_plot"
+      example: "Basket size distribution"
+    
+    - pattern: "frequency_distribution"
+      charts: ["bar_chart", "pareto_chart", "word_cloud"]
+      priority: ["pareto_chart", "bar_chart"]
+      conditions:
+        text_data: "use word_cloud"
+        show_cumulative: "use pareto_chart"
+      example: "Product request frequency"
+
+  # Correlation Insights
+  correlation:
+    - pattern: "two_variable_relationship"
+      charts: ["scatter_plot", "bubble_chart", "hexbin_plot"]
+      priority: ["scatter_plot", "bubble_chart"]
+      conditions:
+        third_dimension: "use bubble_chart"
+        many_points: "use hexbin_plot"
+      example: "Price vs quantity sold"
+    
+    - pattern: "multi_variable_correlation"
+      charts: ["correlation_matrix", "parallel_coordinates", "scatter_matrix"]
+      priority: ["correlation_matrix", "parallel_coordinates"]
+      example: "Feature correlation analysis"
+
+  # Flow and Journey Insights
+  flow:
+    - pattern: "stage_conversion"
+      charts: ["funnel_chart", "sankey_diagram", "waterfall_chart"]
+      priority: ["funnel_chart", "waterfall_chart"]
+      conditions:
+        show_dropoff: "use funnel_chart"
+        show_additions: "use waterfall_chart"
+      example: "Customer journey stages"
+    
+    - pattern: "path_analysis"
+      charts: ["sankey_diagram", "chord_diagram", "flow_map"]
+      priority: ["sankey_diagram", "flow_map"]
+      example: "Brand switching behavior"
+
+  # Geographic Insights
+  geographic:
+    - pattern: "location_metrics"
+      charts: ["choropleth_map", "bubble_map", "heat_map"]
+      priority: ["choropleth_map", "bubble_map"]
+      conditions:
+        show_density: "use heat_map"
+        show_magnitude: "use bubble_map"
+      example: "Revenue by region"
+    
+    - pattern: "point_locations"
+      charts: ["pin_map", "cluster_map", "hex_map"]
+      priority: ["cluster_map", "pin_map"]
+      conditions:
+        many_points: "use cluster_map or hex_map"
+      example: "Store locations"
+
+# Data characteristic mappings
+data_characteristics:
+  categorical:
+    ordered:
+      few: ["bar_chart", "column_chart", "lollipop_chart"]
+      many: ["horizontal_bar", "dot_plot", "heatmap"]
+    unordered:
+      few: ["bar_chart", "pie_chart", "donut_chart"]
+      many: ["treemap", "packed_circles", "word_cloud"]
+  
+  continuous:
+    univariate:
+      distribution: ["histogram", "density_plot", "box_plot"]
+      trend: ["line_chart", "area_chart", "sparkline"]
+    bivariate:
+      correlation: ["scatter_plot", "hexbin_plot", "contour_plot"]
+      comparison: ["slope_chart", "connected_scatter", "bubble_chart"]
+    multivariate:
+      relationships: ["parallel_coordinates", "radar_chart", "scatter_matrix"]
+      patterns: ["heatmap", "clustered_heatmap", "correlation_matrix"]
+  
+  temporal:
+    single_series:
+      short_term: ["line_chart", "column_chart", "area_chart"]
+      long_term: ["line_chart", "horizon_chart", "sparkline"]
+    multiple_series:
+      few: ["multi_line_chart", "grouped_bar", "stacked_area"]
+      many: ["small_multiples", "horizon_chart", "heatmap"]
+    cyclical:
+      daily: ["24h_heatmap", "radial_chart", "column_chart"]
+      weekly: ["calendar_heatmap", "grouped_bar", "heatmap"]
+      seasonal: ["line_chart", "polar_area", "cycle_plot"]
+
+# Chart selection criteria
+selection_criteria:
+  data_points:
+    "< 10": ["pie_chart", "donut_chart", "bar_chart"]
+    "10-50": ["bar_chart", "line_chart", "scatter_plot"]
+    "50-500": ["line_chart", "heatmap", "hexbin_plot"]
+    "> 500": ["heatmap", "density_plot", "aggregated_charts"]
+  
+  dimensions:
+    1: ["bar_chart", "histogram", "line_chart"]
+    2: ["scatter_plot", "heatmap", "grouped_bar"]
+    3: ["bubble_chart", "3d_scatter", "parallel_coordinates"]
+    "3+": ["parallel_coordinates", "radar_chart", "small_multiples"]
+  
+  update_frequency:
+    real_time: ["line_chart", "gauge_chart", "number_display"]
+    hourly: ["line_chart", "bar_chart", "heatmap"]
+    daily: ["bar_chart", "line_chart", "calendar_heatmap"]
+    monthly: ["column_chart", "area_chart", "waterfall_chart"]
+
+# AI enhancement capabilities by chart type
+ai_enhancements:
+  anomaly_detection:
+    supported: ["line_chart", "scatter_plot", "heatmap", "box_plot"]
+    overlay_type: ["highlight_points", "annotation_callouts", "color_coding"]
+  
+  forecast_display:
+    supported: ["line_chart", "area_chart", "bar_chart"]
+    overlay_type: ["extended_line", "confidence_bands", "scenario_comparison"]
+  
+  pattern_recognition:
+    supported: ["heatmap", "scatter_plot", "time_series", "sankey_diagram"]
+    overlay_type: ["cluster_boundaries", "trend_lines", "pattern_highlights"]
+  
+  insight_generation:
+    all_charts: true
+    delivery: ["tooltip", "sidebar", "modal", "inline_annotation"]
+
+# Performance considerations
+performance_guidelines:
+  rendering_cost:
+    low: ["bar_chart", "line_chart", "pie_chart", "kpi_card"]
+    medium: ["scatter_plot", "heatmap", "multi_line_chart", "donut_chart"]
+    high: ["sankey_diagram", "force_directed", "3d_charts", "large_maps"]
+  
+  data_limits:
+    bar_chart: 100
+    line_chart: 1000
+    scatter_plot: 5000
+    heatmap: 10000
+    map_markers: 1000
+    sankey_nodes: 50
+  
+  interaction_support:
+    hover: ["all"]
+    click: ["all"]
+    brush: ["line_chart", "scatter_plot", "heatmap", "map"]
+    zoom: ["line_chart", "scatter_plot", "map", "heatmap"]
+    pan: ["map", "large_charts"]
+
+# Accessibility requirements
+accessibility:
+  screen_reader_friendly:
+    best: ["table", "bar_chart", "line_chart"]
+    good: ["pie_chart", "scatter_plot", "kpi_card"]
+    requires_description: ["sankey_diagram", "heatmap", "map"]
+  
+  color_blind_safe:
+    patterns_available: ["bar_chart", "line_chart", "area_chart"]
+    shape_encoding: ["scatter_plot", "line_chart"]
+    requires_palette: ["heatmap", "choropleth_map", "pie_chart"]
+  
+  keyboard_navigation:
+    fully_supported: ["table", "bar_chart", "line_chart"]
+    partial_support: ["scatter_plot", "heatmap", "map"]
+    limited_support: ["sankey_diagram", "force_directed"]
+
+# Export format support
+export_support:
+  png:
+    all_charts: true
+    quality: "high"
+  
+  svg:
+    supported: ["line_chart", "bar_chart", "scatter_plot", "pie_chart"]
+    quality: "vector"
+  
+  csv:
+    data_charts: ["table", "bar_chart", "line_chart", "scatter_plot"]
+    excludes: ["gauge_chart", "sankey_diagram", "word_cloud"]
+  
+  interactive_html:
+    supported: ["all"]
+    includes: ["tooltips", "zoom", "pan", "filters"]

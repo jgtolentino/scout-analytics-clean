@@ -1,0 +1,275 @@
+{
+  "$schema": "../lib/scout-widget-manifest.schema.json",
+  "manifestVersion": "1.0",
+  "id": "scout-core-widgets",
+  "name": "Scout Core Widgets",
+  "version": "1.0.0",
+  "author": {
+    "name": "Scout Dashboard Team",
+    "email": "team@scout-dashboard.com"
+  },
+  "description": "Core widget collection for Scout Dashboard",
+  "icon": "package",
+  "homepage": "https://scout-dashboard.com/widgets/core",
+  "permissions": [
+    "data:read",
+    "filters:read",
+    "filters:write",
+    "parameters:read",
+    "parameters:write",
+    "ui:modal",
+    "ai:insights",
+    "export:data"
+  ],
+  "zones": [
+    {
+      "type": "kpi",
+      "name": "KPI Card",
+      "component": "components/Dashboard/KPICard",
+      "category": "visualization",
+      "defaultSize": {
+        "width": 3,
+        "height": 2
+      },
+      "minSize": {
+        "width": 2,
+        "height": 2
+      },
+      "configSchema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": ["number", "string"]
+          },
+          "format": {
+            "type": "string",
+            "enum": ["number", "currency", "percentage"]
+          },
+          "target": {
+            "type": "number"
+          },
+          "sparklineData": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "dataRequirements": {
+        "dataSource": true,
+        "query": true
+      },
+      "capabilities": {
+        "export": true,
+        "refresh": true,
+        "configure": true,
+        "resize": true,
+        "aiInsights": true
+      }
+    },
+    {
+      "type": "chart",
+      "name": "Chart Zone",
+      "component": "components/Dashboard/ChartZone",
+      "category": "visualization",
+      "defaultSize": {
+        "width": 6,
+        "height": 4
+      },
+      "minSize": {
+        "width": 3,
+        "height": 3
+      },
+      "configSchema": {
+        "type": "object",
+        "properties": {
+          "chartType": {
+            "type": "string",
+            "enum": ["line", "bar", "pie", "scatter", "area", "heatmap", "radar"]
+          },
+          "query": {
+            "type": "string"
+          },
+          "chartConfig": {
+            "type": "object"
+          }
+        }
+      },
+      "dataRequirements": {
+        "dataSource": true,
+        "query": true,
+        "columns": ["xAxis", "yAxis", "series"]
+      },
+      "capabilities": {
+        "export": true,
+        "refresh": true,
+        "configure": true,
+        "resize": true,
+        "aiInsights": true
+      }
+    },
+    {
+      "type": "table",
+      "name": "Data Table",
+      "component": "components/Dashboard/TableZone",
+      "category": "visualization",
+      "defaultSize": {
+        "width": 6,
+        "height": 4
+      },
+      "minSize": {
+        "width": 3,
+        "height": 2
+      },
+      "configSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          },
+          "pageSize": {
+            "type": "integer",
+            "default": 10
+          },
+          "sortable": {
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
+      "dataRequirements": {
+        "dataSource": true,
+        "query": true
+      },
+      "capabilities": {
+        "export": true,
+        "refresh": true,
+        "configure": true,
+        "resize": true,
+        "aiInsights": false
+      }
+    },
+    {
+      "type": "filter",
+      "name": "Filter Controls",
+      "component": "components/Dashboard/FilterZone",
+      "category": "control",
+      "defaultSize": {
+        "width": 3,
+        "height": 4
+      },
+      "minSize": {
+        "width": 2,
+        "height": 2
+      },
+      "configSchema": {
+        "type": "object",
+        "properties": {
+          "filters": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": ["select", "multiselect", "range", "date", "search"]
+                },
+                "options": {
+                  "type": "array"
+                }
+              }
+            }
+          }
+        }
+      },
+      "capabilities": {
+        "export": false,
+        "refresh": false,
+        "configure": true,
+        "resize": true,
+        "aiInsights": false
+      }
+    },
+    {
+      "type": "parameter",
+      "name": "Parameter Controls",
+      "component": "components/Dashboard/ParameterZone",
+      "category": "control",
+      "defaultSize": {
+        "width": 3,
+        "height": 3
+      },
+      "minSize": {
+        "width": 2,
+        "height": 2
+      },
+      "configSchema": {
+        "type": "object",
+        "properties": {
+          "parameters": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": ["string", "number", "date", "boolean", "list"]
+                },
+                "defaultValue": {},
+                "allowableValues": {
+                  "type": "array"
+                }
+              }
+            }
+          }
+        }
+      },
+      "capabilities": {
+        "export": false,
+        "refresh": false,
+        "configure": true,
+        "resize": true,
+        "aiInsights": false
+      }
+    }
+  ],
+  "dataSources": ["supabase", "api", "json"],
+  "dependencies": {
+    "scout": "^1.0.0"
+  },
+  "events": {
+    "emits": [
+      "filter:changed",
+      "parameter:changed",
+      "data:selected",
+      "zone:configured"
+    ],
+    "listens": [
+      "dashboard:refresh",
+      "filter:reset",
+      "parameter:reset"
+    ]
+  },
+  "ai": {
+    "insights": true,
+    "recommendations": true,
+    "naturalLanguageQueries": true,
+    "explainability": true,
+    "contextProviders": [
+      "data-summary",
+      "filter-state",
+      "parameter-values"
+    ]
+  },
+  "localization": {
+    "defaultLocale": "en-US",
+    "supportedLocales": ["en-US", "es-ES", "fr-FR", "de-DE", "ja-JP"]
+  }
+}

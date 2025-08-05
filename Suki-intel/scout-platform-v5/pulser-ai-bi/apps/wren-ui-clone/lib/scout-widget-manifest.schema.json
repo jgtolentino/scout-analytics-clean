@@ -1,0 +1,308 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://scout-dashboard.com/schemas/widget-manifest.json",
+  "title": "Scout Widget Manifest",
+  "description": "Schema for Scout Dashboard widget manifest files",
+  "type": "object",
+  "required": [
+    "manifestVersion",
+    "id",
+    "name",
+    "version",
+    "author",
+    "zones"
+  ],
+  "properties": {
+    "manifestVersion": {
+      "type": "string",
+      "description": "Version of the manifest schema",
+      "enum": ["1.0"]
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the widget",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the widget"
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version of the widget",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(-[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*)?$"
+    },
+    "author": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description of the widget"
+    },
+    "icon": {
+      "type": "string",
+      "description": "Icon name or URL"
+    },
+    "homepage": {
+      "type": "string",
+      "format": "uri",
+      "description": "Widget documentation or homepage URL"
+    },
+    "permissions": {
+      "type": "array",
+      "description": "Required permissions for the widget",
+      "items": {
+        "type": "string",
+        "enum": [
+          "data:read",
+          "data:write",
+          "filters:read",
+          "filters:write",
+          "parameters:read",
+          "parameters:write",
+          "layout:read",
+          "layout:write",
+          "ui:modal",
+          "ui:dialog",
+          "ai:insights",
+          "export:data",
+          "storage:local",
+          "storage:cloud"
+        ]
+      }
+    },
+    "zones": {
+      "type": "array",
+      "description": "Zone types provided by this widget",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["type", "name", "component"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Unique zone type identifier"
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name for the zone type"
+          },
+          "component": {
+            "type": "string",
+            "description": "Component file path or name"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["visualization", "control", "data", "layout", "custom"],
+            "default": "custom"
+          },
+          "defaultSize": {
+            "type": "object",
+            "properties": {
+              "width": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 12
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 8
+              }
+            }
+          },
+          "minSize": {
+            "type": "object",
+            "properties": {
+              "width": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          },
+          "maxSize": {
+            "type": "object",
+            "properties": {
+              "width": {
+                "type": "integer",
+                "maximum": 12
+              },
+              "height": {
+                "type": "integer",
+                "maximum": 8
+              }
+            }
+          },
+          "configSchema": {
+            "type": "object",
+            "description": "JSON Schema for zone configuration"
+          },
+          "dataRequirements": {
+            "type": "object",
+            "properties": {
+              "dataSource": {
+                "type": "boolean",
+                "default": false
+              },
+              "query": {
+                "type": "boolean",
+                "default": false
+              },
+              "columns": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "capabilities": {
+            "type": "object",
+            "properties": {
+              "export": {
+                "type": "boolean",
+                "default": true
+              },
+              "refresh": {
+                "type": "boolean",
+                "default": true
+              },
+              "configure": {
+                "type": "boolean",
+                "default": true
+              },
+              "resize": {
+                "type": "boolean",
+                "default": true
+              },
+              "aiInsights": {
+                "type": "boolean",
+                "default": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "dataSources": {
+      "type": "array",
+      "description": "Supported data source types",
+      "items": {
+        "type": "string",
+        "enum": ["supabase", "api", "csv", "json", "graphql", "custom"]
+      }
+    },
+    "dependencies": {
+      "type": "object",
+      "description": "Required dependencies",
+      "properties": {
+        "scout": {
+          "type": "string",
+          "description": "Minimum Scout runtime version"
+        },
+        "widgets": {
+          "type": "object",
+          "description": "Other required widgets",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "configuration": {
+      "type": "object",
+      "description": "Global widget configuration options",
+      "properties": {
+        "configUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to configuration UI"
+        },
+        "defaultConfig": {
+          "type": "object",
+          "description": "Default configuration values"
+        }
+      }
+    },
+    "events": {
+      "type": "object",
+      "description": "Events emitted or consumed by the widget",
+      "properties": {
+        "emits": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "listens": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ai": {
+      "type": "object",
+      "description": "AI integration capabilities",
+      "properties": {
+        "insights": {
+          "type": "boolean",
+          "default": false
+        },
+        "recommendations": {
+          "type": "boolean",
+          "default": false
+        },
+        "naturalLanguageQueries": {
+          "type": "boolean",
+          "default": false
+        },
+        "explainability": {
+          "type": "boolean",
+          "default": false
+        },
+        "contextProviders": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "localization": {
+      "type": "object",
+      "description": "Localization support",
+      "properties": {
+        "defaultLocale": {
+          "type": "string",
+          "default": "en-US"
+        },
+        "supportedLocales": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
