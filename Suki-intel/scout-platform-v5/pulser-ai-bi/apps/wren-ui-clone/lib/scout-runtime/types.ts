@@ -267,6 +267,7 @@ export interface GetDataOptions {
 
 export interface DashboardContent {
   dashboard: Dashboard;
+  initialize(): Promise<void>;
 }
 
 export interface Environment {

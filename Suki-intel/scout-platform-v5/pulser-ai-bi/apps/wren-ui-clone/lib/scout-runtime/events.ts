@@ -56,7 +56,7 @@ export interface SelectionChangedEvent {
 
 export interface AIInsightEvent {
   zoneId: number | string;
-  insightType: 'anomaly' | 'trend' | 'forecast' | 'recommendation';
+  insightType: 'anomaly' | 'trend' | 'forecast' | 'recommendation' | 'explanation';
   insight: {
     title: string;
     description: string;

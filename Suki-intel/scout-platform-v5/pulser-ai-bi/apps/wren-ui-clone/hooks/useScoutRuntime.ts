@@ -3,9 +3,9 @@
  */
 
 import { useEffect, useState, useCallback, useRef } from 'react';
-import { scout, ScoutAPI } from '../lib/scout.runtime';
+import { scout, ScoutAPI, ScoutEnvironment } from '../lib/scout.runtime';
 import { eventBus, ScoutEventType, ScopedEventBus } from '../lib/scoutEventBus';
-import type { DashboardConfig, DashboardZone, Parameter, Filter } from '../components/Dashboard';
+import type { DashboardConfig, DashboardZoneType, Parameter, Filter } from '../components/Dashboard';
 
 interface UseScoutRuntimeOptions {
   source?: string;
@@ -18,10 +18,10 @@ interface ScoutRuntimeState {
   loading: boolean;
   error: Error | null;
   dashboardName: string;
-  zones: DashboardZone[];
+  zones: DashboardZoneType[];
   parameters: Parameter[];
   filters: Filter[];
-  environment: ReturnType<ScoutAPI['environment']>;
+  environment: ScoutEnvironment;
 }
 
 export const useScoutRuntime = (options: UseScoutRuntimeOptions = {}) => {
@@ -104,7 +104,7 @@ export const useScoutRuntime = (options: UseScoutRuntimeOptions = {}) => {
   }, []);
 
   // Zone management
-  const addZone = useCallback((zone: DashboardZone) => {
+  const addZone = useCallback((zone: DashboardZoneType) => {
     scout.addZone(zone);
     setState(prev => ({
       ...prev,
@@ -113,7 +113,7 @@ export const useScoutRuntime = (options: UseScoutRuntimeOptions = {}) => {
     emitEvent(ScoutEventType.ZONE_ADDED, { zone });
   }, [emitEvent]);
 
-  const updateZone = useCallback((zoneId: string, updates: Partial<DashboardZone>) => {
+  const updateZone = useCallback((zoneId: string, updates: Partial<DashboardZoneType>) => {
     scout.updateZone(zoneId, updates);
     setState(prev => ({
       ...prev,

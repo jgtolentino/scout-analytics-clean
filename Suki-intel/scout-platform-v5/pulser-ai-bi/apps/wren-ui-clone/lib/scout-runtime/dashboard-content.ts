@@ -202,7 +202,7 @@ class DashboardImpl implements Dashboard {
   name: string;
   worksheets: Worksheet[] = [];
   objects: DashboardObject[] = [];
-  sheetType = SheetType.Dashboard;
+  readonly sheetType = SheetType.Dashboard;
   size: { width: number; height: number };
   private _parameters: Parameter[] = [];
   private _filters: Filter[] = [];

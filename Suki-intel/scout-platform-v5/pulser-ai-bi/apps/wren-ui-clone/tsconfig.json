@@ -23,6 +23,8 @@
     "**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "tableau-extensions-api/**/*",
+    "tableau-extensions-api-reference/**/*"
   ]
 }

@@ -8,7 +8,28 @@ import { ChartCanvas } from '../components/ChartCanvas';
 import { ResultTable } from '../components/ResultTable';
 import { QueryHistory } from '../components/QueryHistory';
 import { useAnalytics } from '../hooks/useAnalytics';
-import { ChartType } from '../../packages/chart-engine/src/types';
+import { ChartType as AnalyticsChartType } from '../components/Charts';
+
+// Local type for ChartCanvas compatibility  
+type ChartType = 'line' | 'bar' | 'pie' | 'scatter' | 'table' | 'kpi' | 'area' | 'heatmap' | 'radar' | 'funnel' | 'gauge' | 'map';
+
+// Convert analytics chart type to canvas chart type
+const convertChartType = (analyticsType: AnalyticsChartType): ChartType => {
+  switch (analyticsType) {
+    case AnalyticsChartType.LINE: return 'line';
+    case AnalyticsChartType.BAR: return 'bar';
+    case AnalyticsChartType.PIE: return 'pie';
+    case AnalyticsChartType.SCATTER: return 'scatter';
+    case AnalyticsChartType.TABLE: return 'table';
+    case AnalyticsChartType.KPI_CARD: return 'kpi';
+    case AnalyticsChartType.AREA: return 'area';
+    case AnalyticsChartType.HEATMAP: return 'heatmap';
+    case AnalyticsChartType.RADAR: return 'radar';
+    case AnalyticsChartType.FUNNEL: return 'funnel';
+    case AnalyticsChartType.GAUGE: return 'gauge';
+    default: return 'bar';
+  }
+};
 import { 
   Brain, 
   Database, 
@@ -195,25 +216,37 @@ export default function Dashboard() {
             </div>
 
             {/* Visualization */}
-            {chartConfig && chartType !== 'table' && (
+            {chartConfig && chartType !== AnalyticsChartType.TABLE && (
               <ChartCanvas
                 config={chartConfig}
-                type={chartType}
+                type={chartType ? convertChartType(chartType) : 'bar'}
                 title={result.intent?.type ? `${result.intent.type} Analysis` : 'Results'}
                 onRefresh={() => execute(query)}
                 onExport={(format) => exportData(format)}
-                onTypeChange={setChartType}
-                availableTypes={availableCharts}
+                onTypeChange={(type: ChartType) => {
+                  // Convert back to analytics type when setting
+                  const analyticsType = Object.entries({
+                    [AnalyticsChartType.LINE]: 'line',
+                    [AnalyticsChartType.BAR]: 'bar',
+                    [AnalyticsChartType.PIE]: 'pie',
+                    [AnalyticsChartType.SCATTER]: 'scatter',
+                    [AnalyticsChartType.TABLE]: 'table',
+                    [AnalyticsChartType.KPI_CARD]: 'kpi',
+                    [AnalyticsChartType.AREA]: 'area',
+                  }).find(([_, value]) => value === type)?.[0] as AnalyticsChartType;
+                  if (analyticsType) setChartType(analyticsType);
+                }}
+                availableTypes={availableCharts.map(convertChartType)}
               />
             )}
 
             {/* Data Table */}
-            {result.data && (chartType === 'table' || result.data.length > 0) && (
+            {result.data && (chartType === AnalyticsChartType.TABLE || result.data.length > 0) && (
               <ResultTable
                 data={result.data}
                 columns={result.columns}
                 title="Detailed Results"
-                onExport={(format) => exportData(format)}
+                onExport={(format) => exportData(format as 'csv' | 'json' | 'png' | 'svg')}
               />
             )}
 

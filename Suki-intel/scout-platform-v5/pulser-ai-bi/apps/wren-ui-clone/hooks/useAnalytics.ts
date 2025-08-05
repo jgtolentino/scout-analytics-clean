@@ -143,7 +143,7 @@ export function useAnalytics(): UseAnalyticsReturn {
    * Determine compatible chart types
    */
   const getCompatibleCharts = (analyticsResult: AnalyticsResult): ChartType[] => {
-    const charts: ChartType[] = ['table']; // Always available
+    const charts: ChartType[] = [ChartType.TABLE]; // Always available
 
     const hasTime = analyticsResult.columns.some(c => c.type === 'date');
     const hasNumeric = analyticsResult.columns.some(c => c.type === 'number');
@@ -151,22 +151,22 @@ export function useAnalytics(): UseAnalyticsReturn {
     const rowCount = analyticsResult.data.length;
 
     if (hasTime && hasNumeric) {
-      charts.push('line', 'area');
+      charts.push(ChartType.LINE, ChartType.AREA);
     }
 
     if (hasCategory && hasNumeric) {
-      charts.push('bar');
+      charts.push(ChartType.BAR);
       if (rowCount <= 8) {
-        charts.push('pie');
+        charts.push(ChartType.PIE);
       }
     }
 
     if (analyticsResult.columns.filter(c => c.type === 'number').length >= 2) {
-      charts.push('scatter');
+      charts.push(ChartType.SCATTER);
     }
 
     if (rowCount === 1 && hasNumeric) {
-      charts.push('kpi', 'gauge');
+      charts.push(ChartType.KPI_CARD, ChartType.GAUGE);
     }
 
     return charts;

@@ -25,6 +25,7 @@ import { useDashboardState } from '../../hooks/useDashboardState';
 export interface DashboardConfig {
   title: string;
   description?: string;
+  version?: string;
   zones: DashboardZone[];
   parameters: Parameter[];
   filters: Filter[];
