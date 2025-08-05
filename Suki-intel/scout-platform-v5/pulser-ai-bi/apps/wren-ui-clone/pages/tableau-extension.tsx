@@ -9,7 +9,6 @@ import { StoryModeProvider } from '../contexts/StoryModeContext';
 import { StoryModeToggle } from '../components/Dashboard/StoryModeToggle';
 import { DonutChart } from '../components/Charts/DonutChart';
 import { HeatmapChart } from '../components/Charts/HeatmapChart';
-import '../styles/story-mode.css';
 
 // Tableau Extensions API types
 declare global {

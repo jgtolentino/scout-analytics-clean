@@ -4,13 +4,13 @@
  */
 
 import { EventEmitter } from 'events';
-import type { DashboardConfig, DashboardZone, Parameter, Filter } from '../components/Dashboard';
+import type { DashboardConfig, DashboardZoneType, Parameter, Filter } from '../components/Dashboard';
 
 // Scout API Namespace - mirrors tableau.extensions
 export class ScoutRuntime extends EventEmitter {
   private static instance: ScoutRuntime;
   private dashboardConfig: DashboardConfig | null = null;
-  private zones: Map<string, DashboardZone> = new Map();
+  private zones: Map<string, DashboardZoneType> = new Map();
   private filters: Map<string, Filter> = new Map();
   private parameters: Map<string, Parameter> = new Map();
   private initialized: boolean = false;
@@ -122,7 +122,7 @@ export class ScoutRuntime extends EventEmitter {
       mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
       apiVersion: '1.0.0',
       dashboardVersion: this.dashboardConfig?.version || '1.0',
-      locale: navigator.language || 'en-US',
+      locale: typeof navigator !== 'undefined' ? navigator.language || 'en-US' : 'en-US',
       operatingSystem: this.getOS(),
       tableauVersion: 'Scout Dashboard 1.0', // For compatibility
       user: this.getCurrentUser(),
@@ -157,37 +157,37 @@ export class ScoutRuntime extends EventEmitter {
   get events() {
     return {
       // Dashboard events
-      onDashboardLayoutChanged: (handler: Function) => 
+      onDashboardLayoutChanged: (handler: (...args: any[]) => void) => 
         this.on('dashboard:layout:changed', handler),
-      onFilterChanged: (handler: Function) => 
+      onFilterChanged: (handler: (...args: any[]) => void) => 
         this.on('filter:changed', handler),
-      onParameterChanged: (handler: Function) => 
+      onParameterChanged: (handler: (...args: any[]) => void) => 
         this.on('parameter:changed', handler),
-      onSelectionChanged: (handler: Function) => 
+      onSelectionChanged: (handler: (...args: any[]) => void) => 
         this.on('selection:changed', handler),
       
       // Zone events
-      onZoneAdded: (handler: Function) => 
+      onZoneAdded: (handler: (...args: any[]) => void) => 
         this.on('zone:added', handler),
-      onZoneRemoved: (handler: Function) => 
+      onZoneRemoved: (handler: (...args: any[]) => void) => 
         this.on('zone:removed', handler),
-      onZoneUpdated: (handler: Function) => 
+      onZoneUpdated: (handler: (...args: any[]) => void) => 
         this.on('zone:updated', handler),
       
       // Data events
-      onDataRefreshed: (handler: Function) => 
+      onDataRefreshed: (handler: (...args: any[]) => void) => 
         this.on('data:refreshed', handler),
-      onQueryExecuted: (handler: Function) => 
+      onQueryExecuted: (handler: (...args: any[]) => void) => 
         this.on('query:executed', handler),
       
       // AI events
-      onAIInsightGenerated: (handler: Function) => 
+      onAIInsightGenerated: (handler: (...args: any[]) => void) => 
         this.on('ai:insight:generated', handler),
-      onAIRecommendationAccepted: (handler: Function) => 
+      onAIRecommendationAccepted: (handler: (...args: any[]) => void) => 
         this.on('ai:recommendation:accepted', handler),
       
       // Remove listener
-      off: (event: string, handler: Function) => 
+      off: (event: string, handler: (...args: any[]) => void) => 
         this.off(event, handler)
     };
   }
@@ -199,7 +199,7 @@ export class ScoutRuntime extends EventEmitter {
       .map(zone => this.createWorksheetProxy(zone));
   }
 
-  private createWorksheetProxy(zone: DashboardZone) {
+  private createWorksheetProxy(zone: DashboardZoneType) {
     return {
       name: zone.name,
       id: zone.id,
@@ -282,6 +282,7 @@ export class ScoutRuntime extends EventEmitter {
   }
 
   private getOS(): string {
+    if (typeof navigator === 'undefined') return 'server';
     const platform = navigator.platform.toLowerCase();
     if (platform.includes('win')) return 'windows';
     if (platform.includes('mac')) return 'mac';
@@ -290,7 +291,7 @@ export class ScoutRuntime extends EventEmitter {
   }
 
   // Public API methods
-  updateZone(zoneId: string, updates: Partial<DashboardZone>) {
+  updateZone(zoneId: string, updates: Partial<DashboardZoneType>) {
     const zone = this.zones.get(zoneId);
     if (zone) {
       Object.assign(zone, updates);
@@ -298,7 +299,7 @@ export class ScoutRuntime extends EventEmitter {
     }
   }
 
-  addZone(zone: DashboardZone) {
+  addZone(zone: DashboardZoneType) {
     this.zones.set(zone.id, zone);
     this.emit('zone:added', { zone });
   }
@@ -332,7 +333,57 @@ export const scout = ScoutRuntime.getInstance();
 
 // Export types for TypeScript support
 export type ScoutAPI = ScoutRuntime;
-export type ScoutDashboardContent = ReturnType<ScoutRuntime['dashboardContent']>;
-export type ScoutEnvironment = ReturnType<ScoutRuntime['environment']>;
-export type ScoutUI = ReturnType<ScoutRuntime['ui']>;
-export type ScoutEvents = ReturnType<ScoutRuntime['events']>;
+
+// Create an interface for dashboardContent getter return type
+export interface ScoutDashboardContent {
+  dashboard: {
+    name: string;
+    zones: DashboardZoneType[];
+    getZoneById: (id: string) => DashboardZoneType | undefined;
+    worksheets: any[];
+  };
+  parameters: any;
+  filters: any;
+}
+
+export interface ScoutEnvironment {
+  mode: string;
+  apiVersion: string;
+  dashboardVersion: string;
+  locale: string;
+  operatingSystem: string;
+  tableauVersion: string;
+  user: {
+    id: string;
+    email: string;
+    name: string;
+  };
+  organization: {
+    id: string;
+    name: string;
+    plan: string;
+  };
+  theme: 'light' | 'dark' | 'auto';
+}
+
+export interface ScoutUI {
+  displayErrorDialog: (title: string, message: string) => Promise<void>;
+  displayConfirmationDialog: (message: string) => Promise<boolean>;
+  showNotification: (message: string, type?: string) => void;
+  closeDialog: () => void;
+}
+
+export interface ScoutEvents {
+  onDashboardLayoutChanged: (handler: (...args: any[]) => void) => void;
+  onFilterChanged: (handler: (...args: any[]) => void) => void;
+  onParameterChanged: (handler: (...args: any[]) => void) => void;
+  onSelectionChanged: (handler: (...args: any[]) => void) => void;
+  onZoneAdded: (handler: (...args: any[]) => void) => void;
+  onZoneRemoved: (handler: (...args: any[]) => void) => void;
+  onZoneUpdated: (handler: (...args: any[]) => void) => void;
+  onDataRefreshed: (handler: (...args: any[]) => void) => void;
+  onQueryExecuted: (handler: (...args: any[]) => void) => void;
+  onAIInsightGenerated: (handler: (...args: any[]) => void) => void;
+  onAIRecommendationAccepted: (handler: (...args: any[]) => void) => void;
+  off: (event: string, handler: (...args: any[]) => void) => void;
+}

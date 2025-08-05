@@ -16,6 +16,7 @@
     "@supabase/ssr": "^0.0.10",
     "@supabase/supabase-js": "^2.38.0",
     "clsx": "^2.0.0",
+    "critters": "^0.0.23",
     "echarts": "^5.4.3",
     "echarts-for-react": "^3.0.2",
     "framer-motion": "^12.23.12",
